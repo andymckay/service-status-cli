@@ -22,21 +22,20 @@ For example when something is `Operational`:
 
 ```bash
 ➜  $ status github
-✔ github
+✔ GitHub 👉 operational
 ```
 
 `Partial Outage` or in `Maintenance`:
 
 ```bash
 ➜  $ status github
-⚠ github
-```
+⚠ GitHub 👉 partial outage
 
 `Major outage`:
 
 ```bash
 ➜  $ status github
-✖ github
+✖ GitHub 👉 major outage
 ```
 
 ### Options
