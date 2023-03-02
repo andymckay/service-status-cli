@@ -14,23 +14,25 @@ npm i service-status-cli
 
 ## Usage
 
-`service [service]` returns the status for that service.
+This library installs itself as the `status` command.
 
-For example when something is good:
+`status [service]` returns the status for that service.
+
+For example when something is `Operational`:
 
 ```bash
 ➜  $ status github
 ✔ github
 ```
 
-Partial outage or in maintenance:
+`Partial Outage` or in `Maintenance`:
 
 ```bash
 ➜  $ status github
 ⚠ github
 ```
 
-Major outage:
+`Major outage`:
 
 ```bash
 ➜  $ status github
@@ -41,8 +43,8 @@ Major outage:
 
 - `--list` returns the services available.
 - `--web` opens the web page for the service in your browser.
-- `-v` or `--verbose` get verbose logging
-- `-q` suppress all output, except errors.
+- `-v` or `--verbose` get verbose logging.
+- `-q` suppress all output, except errors. Exit codes are returned see below 👇
 
 ### Exit codes
 
