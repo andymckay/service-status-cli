@@ -1,0 +1,10 @@
+{
+  "page": {
+    "id": "h5frqhb041yq",
+    "name": "Trello",
+    "url": "https://trello.status.atlassian.com",
+    "time_zone": "America/New_York",
+    "updated_at": "2023-03-02T12:43:08.949-05:00"
+  },
+  "status": { "indicator": "minor", "description": "Minor Service Outage" }
+}
