@@ -1,9 +1,12 @@
+#! /usr/bin/env node
+
 import { Command, Option } from "commander";
 import ora from "ora";
 import logger from "cli-logger";
 import fs from "fs";
 import Parser from "rss-parser";
 import open from "open";
+import { get, list } from "service-status-data";
 
 const program = new Command();
 const parser = new Parser();
@@ -72,7 +75,8 @@ class Service {
 
 class Atlassian extends Service {
   getStatusURL() {
-    return super.getStatusURL() || `${this.data.web}api/v2/status.json`;
+    // If we end up with duplicate /, the regex should strip them.
+    return (super.getStatusURL() || `${this.data.web}/api/v2/status.json`).replace(/([^:]\/)\/+/g, "$1");
   }
 
   async getStatus(component) {
@@ -125,7 +129,7 @@ const service_map = {
 };
 
 function listServices(options) {
-  const services = fs.readdirSync("services");
+  const services = list();
   // Note user has asked for a list of services, so we'll set to warn so it outputs to stdout.
   options.log.warn("Available services:");
   services.forEach((service) => {
@@ -139,26 +143,20 @@ function findService(requested_service, options) {
     options.log.info(
       `Looking for service: ${requested_service} at services/${requested_service}.json`
     );
-    data = fs.readFileSync(`services/${requested_service}.json`, "utf8");
+    data = get(requested_service);
   } catch (e) {
     throw new Error(`Could not find a service named: ${requested_service}`);
   }
 
-  let parsed = null;
-  try {
-    parsed = JSON.parse(data);
-  } catch (e) {
-    throw new Error(`Could not parse the service: ${requested_service}`);
-  }
   options.log.info(`Found data for: ${requested_service}`);
 
-  if (!service_map[parsed.host]) {
+  if (!service_map[data.host]) {
     throw new Error(
-      `Could not parse service: ${requested_service} as host: ${parsed.host}`
+      `Could not parse service: ${requested_service} as host: ${data.host}`
     );
   }
 
-  return new service_map[parsed.host](parsed, options);
+  return new service_map[data.host](data, options);
 }
 
 async function main(requested_service, component, options) {

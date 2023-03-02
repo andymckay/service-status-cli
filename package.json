@@ -9,6 +9,9 @@
   "engines": {
     "node": ">=14.16"
   },
+  "bin": {
+    "status": "./index.js"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -16,7 +19,8 @@
     "commander": "^10.0.0",
     "open": "^8.4.2",
     "ora": "^6.1.2",
-    "rss-parser": "^3.12.0"
+    "rss-parser": "^3.12.0",
+    "service-status-data": "^0.0.2"
   },
   "type": "module",
   "devDependencies": {
