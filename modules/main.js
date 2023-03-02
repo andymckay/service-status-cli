@@ -29,7 +29,7 @@ export async function main(requested_service, options) {
   service = findService(requested_service, options);
 
   if (options.log.level() === loggingLevels["warn"] && !options.web) {
-    let msg = requested_service;
+    let msg = `${service.data.name}`;
     throbber = ora(msg, { spinner: "noise" }).start();
   }
 
@@ -51,6 +51,7 @@ export async function main(requested_service, options) {
   }
   options.log.info(`For ${requested_service} got status: ${result}`);
   if (throbber) {
+    throbber.text = `${service.data.name} 👉 ${result.toLowerCase()}`;
     if (result === statusLevels.ok) {
       throbber.succeed();
     } else if (
