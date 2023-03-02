@@ -20,12 +20,18 @@ class Service {
     this.options.log.info(
       `Getting JSON for service: ${this.data.name} from: ${url}`
     );
-    return await fetch(url).then((res) => {
-      if (!res.ok) {
-        throw new Error(`Error from: ${url}, got status code: ${res.status}.`);
-      }
-      return res.json();
-    });
+    return await fetch(url)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(
+            `Error from: ${url}, got status code: ${res.status}.`
+          );
+        }
+        return res.json();
+      })
+      .catch((error) => {
+        throw new Error(`Failed to fetch URL: ${url}, got ${error}`);
+      });
   }
 
   async getRSS(url) {
@@ -62,6 +68,7 @@ class Atlassian extends Service {
       } else if (data.status.indicator == "minor") {
         return statusLevels.partial;
       }
+      return statusLevels.partial;
     });
   }
 }
@@ -72,6 +79,7 @@ class Salesforce extends Service {
       if (data.data.every((x) => x.attributes.color == "green")) {
         return statusLevels.ok;
       }
+      return statusLevels.partial;
     });
   }
 }
@@ -82,6 +90,7 @@ class Automattic extends Service {
       if (data.items.every((x) => x.title.endsWith("- Operational"))) {
         return statusLevels.ok;
       }
+      return statusLevels.partial;
     });
   }
 }
@@ -92,6 +101,7 @@ class StatusIO extends Service {
       if (data.result["status_overall"].status == "Operational") {
         return statusLevels.ok;
       }
+      return statusLevels.partial;
     });
   }
 }

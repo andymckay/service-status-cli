@@ -20,7 +20,7 @@ program
       .conflicts("list")
       .conflicts("web")
   )
-  .action((requested_service, component, options) => {
+  .action(async (requested_service, options) => {
     if (options.quiet) {
       options.log = logger({ level: loggingLevels.error });
     } else {
@@ -33,12 +33,14 @@ program
     }
 
     try {
-      main(requested_service, options);
+      await main(requested_service, options);
     } catch (e) {
       if (options.verbose) {
         console.error(e);
+      } else {
+        console.error(e.message);
       }
-      process.exit(exitCodes.error);
+      process.exitCode = exitCodes.error;
     }
   });
 

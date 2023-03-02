@@ -27,9 +27,12 @@ beforeEach(async (test) => {
   if (hosts[host] === undefined) {
     return;
   }
+  console.log(`Mocking ${hosts[host]} with ${file}`);
   let restHandlers = [
     rest.get(hosts[host], (req, res, ctx) => {
-      console.log(`Mocking ${hosts[host]} with ${file}`);
+      console.log(
+        `Call was intercepted to ${hosts[host]} and replaced with ${file}`
+      );
       return res(ctx.status(200), ctx.json(getExample(file)));
     }),
   ];

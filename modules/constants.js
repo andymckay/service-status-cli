@@ -18,3 +18,10 @@ export const exitCodes = {
   major: 3,
   maintenance: 4,
 };
+
+export const statusToExitCode = {
+  Operational: exitCodes.ok,
+  "Partial Outage": exitCodes.partial,
+  "Major Outage": exitCodes.major,
+  Maintenance: exitCodes.maintenance,
+};

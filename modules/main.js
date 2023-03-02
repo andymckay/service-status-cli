@@ -1,6 +1,11 @@
 import ora from "ora";
 import { listServices, findService } from "./services.js";
-import { loggingLevels, exitCodes, statusLevels } from "./constants.js";
+import {
+  loggingLevels,
+  exitCodes,
+  statusLevels,
+  statusToExitCode,
+} from "./constants.js";
 
 export async function main(requested_service, options) {
   let throbber = null;
@@ -8,21 +13,20 @@ export async function main(requested_service, options) {
 
   if (options.list) {
     listServices(options);
-    process.exit(exitCodes.ok);
+    process.exitCode = exitCodes.ok;
+    return;
   }
 
   if (!requested_service) {
-    options.log.error("No service specified");
-    process.exit(exitCodes.error);
+    options.log.error(
+      "No service specified, use --list to see available services"
+    );
+    process.exitCode = exitCodes.error;
+    return;
   }
 
   let service = null;
-  try {
-    service = findService(requested_service, options);
-  } catch (e) {
-    options.log.error(e.message);
-    process.exit(exitCodes.error);
-  }
+  service = findService(requested_service, options);
 
   if (options.log.level() === loggingLevels["warn"] && !options.web) {
     let msg = requested_service;
@@ -31,7 +35,7 @@ export async function main(requested_service, options) {
 
   if (options.web) {
     service.openWeb();
-    process.exit(exitCodes.ok);
+    return;
   }
 
   let result = null;
@@ -42,7 +46,8 @@ export async function main(requested_service, options) {
       throbber.fail();
     }
     options.log.error(e.message);
-    process.exit(exitCodes.error);
+    process.exitCode = exitCodes.error;
+    return;
   }
   options.log.info(`For ${requested_service} got status: ${result}`);
   if (throbber) {
@@ -56,5 +61,6 @@ export async function main(requested_service, options) {
       throbber.fail();
     }
   }
-  process.exit(result ? exitCodes.ok : exitCodes.major);
+
+  process.exitCode = statusToExitCode[result];
 }
