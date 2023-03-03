@@ -51,14 +51,16 @@ export async function main(requested_service, options) {
   }
   options.log.info(`For ${requested_service} got status: ${result}`);
   if (throbber) {
-    throbber.text = `${service.data.name} 👉 ${result.toLowerCase()}`;
     if (result === statusLevels.ok) {
+      throbber.text = `${service.data.name} 👉 ${result.toLowerCase()}`;e 
       throbber.succeed();
     } else if (
       [statusLevels.partial, statusLevels.maintenance].includes(result)
     ) {
+      throbber.text = `${service.data.name} 👉 ${result.toLowerCase()} see: ${service.data.web}`;
       throbber.warn();
     } else {
+      throbber.text = `${service.data.name} 👉 ${result.toLowerCase()} see: ${service.data.web}`;
       throbber.fail();
     }
   }

@@ -29,13 +29,13 @@ For example when something is `Operational`:
 
 ```bash
 ➜  $ status github
-⚠ GitHub 👉 partial outage
+⚠ GitHub 👉 partial outage see: https://www.githubstatus.com/
 
 `Major outage`:
 
 ```bash
 ➜  $ status github
-✖ GitHub 👉 major outage
+✖ GitHub 👉 major outage see: https://www.githubstatus.com/
 ```
 
 ### Options
