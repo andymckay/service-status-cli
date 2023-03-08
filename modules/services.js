@@ -25,9 +25,7 @@ class Service {
     return await fetch(url)
       .then((res) => {
         if (!res.ok) {
-          throw new Error(
-            `Error from: ${url}, got status code: ${res.status}.`
-          );
+          throw new Error(`Error got status code: ${res.status}.`);
         }
         return res.json();
       })
@@ -143,7 +141,7 @@ export function findService(requested_service, options) {
     throw new Error(`Could not find a service named: ${requested_service}`);
   }
 
-  options.log.info(`Found data for: ${requested_service}`);
+  options.log.info(`Found configuration for: ${requested_service}`);
 
   if (!service_map[data.host]) {
     throw new Error(

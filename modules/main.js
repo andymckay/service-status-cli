@@ -10,7 +10,7 @@ import {
 
 export async function main(requested_service, options) {
   let throbber = null;
-  options.log.info(`Got service: ${requested_service}`);
+  options.log.info(`User requested service: ${requested_service}`);
 
   if (options.list) {
     listServices(options);
@@ -49,7 +49,10 @@ export async function main(requested_service, options) {
     process.exitCode = exitCodes.error;
     return;
   }
-  options.log.info(`For ${requested_service} got status: ${service.status}`);
+  options.log.info(`Got status: ${service.status}`);
+  if (service.description) {
+    options.log.info(`Got description: ${service.description}`);
+  }
   if (throbber) {
     if (service.status === statusLevels.ok) {
       throbber.text = `${service.data.name} 👉 ${service.status.toLowerCase()}`;
@@ -57,11 +60,11 @@ export async function main(requested_service, options) {
     } else if (
       [statusLevels.partial, statusLevels.maintenance].includes(service.status)
     ) {
+      // If we can find a meaningful description, show it.
+      let desc = service.description ? `\n "${service.description}"` : "";
       throbber.text = `${
         service.data.name
-      } 👉 ${service.status.toLowerCase()} \n"${service.description}" see: ${
-        service.data.web
-      }`;
+      } 👉 ${service.status.toLowerCase()}${desc} see: ${service.data.web}`;
       throbber.warn();
     } else {
       throbber.text = `${
@@ -70,6 +73,6 @@ export async function main(requested_service, options) {
       throbber.fail();
     }
   }
-
+  options.log.info(`Exit code: ${statusToExitCode[service.status]}`);
   process.exitCode = statusToExitCode[service.status];
 }
