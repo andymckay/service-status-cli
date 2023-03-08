@@ -1,3 +1,4 @@
+import process from "process";
 import ora from "ora";
 import { listServices, findService } from "./services.js";
 import {
@@ -38,9 +39,8 @@ export async function main(requested_service, options) {
     return;
   }
 
-  let result = null;
   try {
-    result = await service.getStatus();
+    await service.getStatus();
   } catch (e) {
     if (throbber) {
       throbber.fail();
@@ -49,21 +49,27 @@ export async function main(requested_service, options) {
     process.exitCode = exitCodes.error;
     return;
   }
-  options.log.info(`For ${requested_service} got status: ${result}`);
+  options.log.info(`For ${requested_service} got status: ${service.status}`);
   if (throbber) {
-    if (result === statusLevels.ok) {
-      throbber.text = `${service.data.name} 👉 ${result.toLowerCase()}`;e 
+    if (service.status === statusLevels.ok) {
+      throbber.text = `${service.data.name} 👉 ${service.status.toLowerCase()}`;
       throbber.succeed();
     } else if (
-      [statusLevels.partial, statusLevels.maintenance].includes(result)
+      [statusLevels.partial, statusLevels.maintenance].includes(service.status)
     ) {
-      throbber.text = `${service.data.name} 👉 ${result.toLowerCase()} see: ${service.data.web}`;
+      throbber.text = `${
+        service.data.name
+      } 👉 ${service.status.toLowerCase()} \n"${service.description}" see: ${
+        service.data.web
+      }`;
       throbber.warn();
     } else {
-      throbber.text = `${service.data.name} 👉 ${result.toLowerCase()} see: ${service.data.web}`;
+      throbber.text = `${
+        service.data.name
+      } 👉 ${service.status.toLowerCase()} see: ${service.data.web}`;
       throbber.fail();
     }
   }
 
-  process.exitCode = statusToExitCode[result];
+  process.exitCode = statusToExitCode[service.status];
 }

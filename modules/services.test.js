@@ -1,4 +1,4 @@
-import { findService, listServices } from "./services.js";
+import { findService } from "./services.js";
 import { statusLevels } from "./constants.js";
 import { expect, test } from "vitest";
 
@@ -18,35 +18,38 @@ import { expect, test } from "vitest";
 
 test("slack partial #slack-2023-03-02.json", () => {
   let service = findService("slack", { log: console });
-  service.getStatus().then((status) => {
-    expect(status).toBe(statusLevels.partial);
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.partial);
+    expect(service.description).toBe(
+      "Some users may experience issues accessing api.slack.com"
+    );
   });
 });
 
 test("slack good #slack-good.json", () => {
   let service = findService("slack", { log: console });
-  service.getStatus().then((status) => {
-    expect(status).toBe(statusLevels.ok);
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.ok);
   });
 });
 
 test("github good #github-good.json", () => {
   let service = findService("github", { log: console });
-  service.getStatus().then((status) => {
-    expect(status).toBe(statusLevels.ok);
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.ok);
   });
 });
 
 test("github partial #github-2023-03-02.json", () => {
   let service = findService("github", { log: console });
-  service.getStatus().then((status) => {
-    expect(status).toBe(statusLevels.partial);
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.partial);
   });
 });
 
 test("trello partial #trello-2023-03-02.json", () => {
   let service = findService("trello", { log: console });
-  service.getStatus().then((status) => {
-    expect(status).toBe(statusLevels.partial);
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.partial);
   });
 });

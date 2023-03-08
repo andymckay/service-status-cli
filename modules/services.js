@@ -9,6 +9,8 @@ class Service {
   constructor(data, options) {
     this.data = data;
     this.options = options;
+    this.status = null;
+    this.description = null;
   }
 
   getStatusURL() {
@@ -61,47 +63,48 @@ class Atlassian extends Service {
     );
   }
 
-  async getStatus(component) {
+  async getStatus() {
     return await this.getJSON(this.getStatusURL()).then((data) => {
+      this.status = statusLevels.partial;
       if (data.status.indicator == "none") {
-        return statusLevels.ok;
+        this.status = statusLevels.ok;
       } else if (data.status.indicator == "minor") {
-        return statusLevels.partial;
+        this.status = statusLevels.partial;
       }
-      return statusLevels.partial;
+      this.description = data.status.description;
     });
   }
 }
 
 class Salesforce extends Service {
-  async getStatus(component) {
+  async getStatus() {
     return await this.getJSON().then((data) => {
       if (data.data.every((x) => x.attributes.color == "green")) {
-        return statusLevels.ok;
+        this.status = statusLevels.ok;
       }
-      return statusLevels.partial;
+      this.status = statusLevels.partial;
     });
   }
 }
 
 class Automattic extends Service {
-  async getStatus(component) {
+  async getStatus() {
     return await this.getRSS().then((data) => {
       if (data.items.every((x) => x.title.endsWith("- Operational"))) {
-        return statusLevels.ok;
+        this.status = statusLevels.ok;
       }
-      return statusLevels.partial;
+      this.status = statusLevels.partial;
     });
   }
 }
 
 class StatusIO extends Service {
-  async getStatus(component) {
+  async getStatus() {
     return await this.getJSON().then((data) => {
+      this.status = statusLevels.partial;
       if (data.result["status_overall"].status == "Operational") {
-        return statusLevels.ok;
+        this.status = statusLevels.ok;
       }
-      return statusLevels.partial;
     });
   }
 }
@@ -110,12 +113,15 @@ class Slack extends Service {
   async getStatus() {
     return await this.getJSON().then((data) => {
       if (!data.status) {
-        return statusLevels.error;
+        this.status = statusLevels.error;
       }
       if (data.status == "active") {
-        return statusLevels.partial;
+        this.status = statusLevels.partial;
       } else {
-        return statusLevels.ok;
+        this.status = statusLevels.ok;
+      }
+      if (data.active_incidents) {
+        this.description = data.active_incidents[0]?.title;
       }
     });
   }

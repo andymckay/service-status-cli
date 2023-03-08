@@ -4,6 +4,7 @@
   "description": "",
   "exports": "./index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "vitest",
     "prettier": "prettier --write ."
   },

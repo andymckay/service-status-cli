@@ -4,6 +4,7 @@ import { Command, Option } from "commander";
 import { main } from "./modules/main.js";
 import { loggingLevels, exitCodes } from "./modules/constants.js";
 import logger from "cli-logger";
+import process from "process";
 
 const program = new Command();
 

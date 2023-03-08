@@ -28,21 +28,16 @@ For example when something is `Operational`:
 `Partial Outage` or in `Maintenance`:
 
 ```bash
-➜  $ status github
-⚠ GitHub 👉 partial outage see: https://www.githubstatus.com/
-
-`Major outage`:
-
-```bash
-➜  $ status github
-✖ GitHub 👉 major outage see: https://www.githubstatus.com/
+➜  $ status slack
+⚠ slack 👉 partial outage
+"Slowness searching in Slack" see: https://status.slack.com/
 ```
 
 ### Options
 
 - `--list` returns the services available.
 - `--web` opens the web page for the service in your browser.
-- `-v` or `--verbose` get verbose logging.
+- `-v` or `--verbose` get verbose logging, including URL to the endpoint used.
 - `-q` suppress all output, except errors. Exit codes are returned see below 👇
 
 ### Exit codes
@@ -73,3 +68,11 @@ This library is taking multiple different services and trying to apply a standar
 ## Development
 
 Pull requests and issues are welcome.
+
+**Note:** Testing is currently pinned to node 19.4.0 as per the Action, because that's the version that `msw` seems to work on. To test:
+
+```bash
+npm test
+```
+
+See [vitest](https://vitest.dev/) for more information about the test framework.
