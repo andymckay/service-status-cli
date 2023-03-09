@@ -77,10 +77,10 @@ class Atlassian extends Service {
 class Salesforce extends Service {
   async getStatus() {
     return await this.getJSON().then((data) => {
+      this.status = statusLevels.partial;
       if (data.data.every((x) => x.attributes.color == "green")) {
         this.status = statusLevels.ok;
       }
-      this.status = statusLevels.partial;
     });
   }
 }
@@ -88,10 +88,10 @@ class Salesforce extends Service {
 class Automattic extends Service {
   async getStatus() {
     return await this.getRSS().then((data) => {
+      this.status = statusLevels.partial;
       if (data.items.every((x) => x.title.endsWith("- Operational"))) {
         this.status = statusLevels.ok;
       }
-      this.status = statusLevels.partial;
     });
   }
 }
@@ -141,7 +141,7 @@ export function findService(requested_service, options) {
     throw new Error(`Could not find a service named: ${requested_service}`);
   }
 
-  options.log.info(`Found configuration for: ${requested_service}`);
+  options.log.info(`Found configuration for: ${requested_service} with host: ${data.host}`);
 
   if (!service_map[data.host]) {
     throw new Error(
