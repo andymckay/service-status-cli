@@ -9,7 +9,7 @@ import process from "process";
 const program = new Command();
 
 program
-  .version("0.0.1")
+  .version("0.0.7")
   .description("CLI to see status for a service")
   .argument("[service]", "service to check status for")
   .option("-v, --verbose", "verbose mode")
