@@ -34,6 +34,23 @@ class Service {
       });
   }
 
+  async parseHTML(url) {
+    url = url || this.getStatusURL();
+    this.options.log.info(
+      `Getting HTML for service: ${this.data.name} from: ${url}`
+    );
+    return await fetch(url) 
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error got status code: ${res.status}.`);
+        }
+        return res.text();
+      })
+      .catch((error) => {
+        throw new Error(`Failed to fetch URL: ${url}, got ${error}`);
+      });
+    }
+
   async getRSS(url) {
     url = url || this.getStatusURL();
     this.options.log.info(
@@ -98,9 +115,9 @@ class Automattic extends Service {
 
 class StatusIO extends Service {
   async getStatus() {
-    return await this.getJSON().then((data) => {
-      this.status = statusLevels.partial;
-      if (data.result["status_overall"].status == "Operational") {
+    this.status = statusLevels.partial;
+    return await this.parseHTML().then((data) => {
+      if (data.includes("All Systems Operational")) {
         this.status = statusLevels.ok;
       }
     });
@@ -125,12 +142,30 @@ class Slack extends Service {
   }
 }
 
+class IncidentIO extends Service {
+
+  getStatusURL() {
+    let host = new URL(this.data.web).hostname;
+    return `${this.data.web}proxy/${host}/incidents`;
+  }
+
+  async getStatus() {
+    this.status = statusLevels.partial;
+    return await this.getJSON().then((data) => {
+      if (data.incidents.every((x) => x.status == "resolved")) {
+        this.status = statusLevels.ok;
+      }
+    });
+  }
+}
+
 const service_map = {
   atlassian: Atlassian,
   salesforce: Salesforce,
   automattic: Automattic,
   "status.io": StatusIO,
   slack: Slack,
+  "incident.io": IncidentIO
 };
 
 export function findService(requested_service, options) {
@@ -154,9 +189,29 @@ export function findService(requested_service, options) {
 
 export function listServices(options) {
   const services = list();
+  const service_names = [];
+  services.forEach((service) => {
+    let data = get(service);
+    if (service_map[data.host]) {
+      service_names.push(service.replace(".json", ""));
+    } else {
+      options.log.info(`Ignoring service: ${service} which is not supported.`)
+    }
+  });
+  return service_names;
+}
+
+export function listServicesToConsole(options) {
+  const services = list();
   // Note user has asked for a list of services, so we'll set to warn so it outputs to stdout.
   options.log.warn("Available services:");
   services.forEach((service) => {
-    options.log.warn(`- ${service.replace(".json", "")}`);
+    let data = get(service);
+    if (service_map[data.host]) {
+      options.log.warn(`- ${service.replace(".json", "")}`);
+    } else {
+      options.log.info(`Ignoring service: ${service} which is not supported.`)
+    }
   });
+  return services;
 }

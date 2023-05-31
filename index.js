@@ -15,6 +15,7 @@ program
   .option("-v, --verbose", "verbose mode")
   .option("--web", "open web page for service")
   .option("--list", "list the services available")
+  .option("--all", "check all services")
   .addOption(
     new Option("-q, --quiet", "quiet mode")
       .conflicts("verbose")
