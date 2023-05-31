@@ -1,0 +1,3812 @@
+<!DOCTYPE html><html lang="en"><head><meta name="robots" content="noindex, nofollow"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Current system status. View active incidents or upcoming maintenances. Subscribe to receive status notifications."><meta name="author" content=""><meta http-equiv="refresh" content="300"><link rel="shortcut icon" type="image/x-icon" href="//image.status.io/PYCmnvEWUfEF.ico"><link rel="icon" type="image/x-icon" href="//image.status.io/PYCmnvEWUfEF.ico"><title>Docker system status real-time view</title><!-- Bootstrap--><link rel="stylesheet" href="//static.status.io/public/statuspage/css/bootstrap.min.css"><!-- Fonts--><link href="//static.status.io/public/statuspage/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"><!-- Page Style--><link rel="stylesheet" href="//static.status.io/public/statuspage/css/statuspage-default.css?v=3"><link rel="stylesheet" href="//static.status.io/public/statuspage/css/statuspage-100.css?v=3"><noscript><style>#statusio_metrics {
+    display: none;
+  }
+  </style></noscript><noscript><style>#section_locations {
+    display: none;
+  }
+  
+  </style></noscript><style>.brand img { 
+    display: block !important; 
+  }
+  .img { 
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+  }
+  .navbar .brand {
+    font-size: 20px;
+    font-weight: 200;
+    color: #555555;
+    text-shadow: 0 1px 0 #ffffff;
+  }
+  .navbar .nav {
+    position: relative;
+    left: 0;
+    display: block;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+  .navbar .nav > li {
+    float: left;
+  }
+  .nav > li > a:hover,
+  .nav > li > a:focus {
+    text-decoration: none;
+    background: none;
+    color: #2C3E50;
+    background-color: #F2F3F4;
+  }
+  
+  .top_bar .panel-body {
+    height: 52px;
+  }
+  
+  .event_inner_text {
+    font-size: 14px;
+  }
+  
+  .event_inner_title {
+    font-size: 16px;
+  }
+  </style><!-- Custom Style--><style>body {
+    color: #363434;
+    background-color: #ffffff;
+  }
+  a:link {
+    color: #363434;
+    text-decoration: none;
+  }
+  a:visited {
+    color: #363434;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #363434;
+    text-decoration: none;
+    background-color: transparent;
+  }
+  a:active {
+    color: #363434;
+    text-decoration: none;
+  }
+  hr { 
+    border-top: 1px solid #c9c9c9;
+  }
+  .top_bar {
+    background-color: #27AE60;
+  }
+  .text {
+    color: #363434;
+  }
+  .section_border_0 {
+    background-color: #ffffff;
+    border: 0px solid #ffffff;
+  }
+  .section_border_1 {
+    background-color: #ffffff;
+    border: 1px solid #c9c9c9;
+  }
+  .status_td {
+    color: #363434;
+    background-color: #ffffff;
+  }
+  .external_service {
+    color: #363434;
+  }
+  
+  a.external_service:link {
+    color: #363434;
+    text-decoration: none;
+  }
+  a.external_service:visited {
+    color: #363434;
+    text-decoration: none;
+  }
+  
+  
+  #statuspage_name {
+    color: #363434;
+  }
+  
+  /* overrides */
+  .no_top_border {
+    border-top-width: 0px;
+  }
+  </style><!-- Custom CSS--><style>/*
+  *
+  * docker
+  * base theme
+  *
+  */
+  
+  html {
+      font-family: sans-serif;
+      line-height: 1.15;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+      background-color: #fff;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      line-height: 24px;
+      color: #637986;
+  padding: 0;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;
+  }
+  
+  
+  /*
+  *
+  * links
+  *
+  */
+  
+  a {
+      color: #2089C4;
+      text-decoration: none;
+      cursor: pointer;
+      text-decoration: none;
+  }
+  
+  a:hover, a:active {
+      opacity: .8;
+  }
+  
+  
+  /*
+  *
+  * lists
+  *
+  */
+  
+  ul, ol {
+      list-style-type: none;
+  }
+  
+  
+  /*
+  *
+  * typography ******************************************************************
+  *
+  */
+  
+  h1, h2, h3, h4, h5, h6 {
+      color: #254356;
+      font-family: Geomanist Book, sans-serif;
+  }
+  
+  h1 {
+      font-size: 38px;
+      line-height: 48px;
+  }
+  
+  h2 {
+      font-size: 28px;
+      line-height: 38px;
+  }
+  
+  h3 {
+      font-size: 20px;
+      line-height: 28px;
+  }
+  
+  h4 {
+      color: #445d6e;
+      font-size: 18px;
+      line-height: 26px;
+      text-transform: uppercase;
+  }
+  
+  h5 {
+      color: #445d6e;
+      font-size: 16px;
+      line-height: 26px;
+  }
+  
+  h6 {
+      color: #82949e;
+      font-size: 16px;
+      line-height: 26px;
+  }
+  
+  p {
+      color: #445d6e;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      line-height: 24px;
+      margin-bottom: 10px;
+  }
+  
+  
+  /*
+  *
+  * branding *********************************************************************
+  *
+  */
+  
+  .affix-top .affix-logo {
+      width: 160px;
+      opacity: 0;
+  }
+  
+  .logo, .affix-logo {
+      /*height: 28px;*/
+      margin: 12px 0 0 10px;
+      float: left;
+  }
+  
+  
+  /*
+  *
+  * Header ***********************************************************************
+  *
+  */
+  
+  .container {
+      width: 100%!important;
+  }
+  
+  header.header {
+      height: 65px;
+      position: relative;
+      z-index: 1;
+      padding: 0 0 50px 0;
+  }
+  .header {
+      padding: 25px 0 0 0;
+  }
+  
+  .fan {
+  background-color: #439CE6;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+  }
+  
+  .navbar-header {
+      padding: 15px 0 0 0;
+  }
+  
+  
+  /*
+  *
+  * Header Collapsed *******************************************************
+  *
+  */
+  
+  .header-collapsed {
+      background: #0087C9;
+      position: relative;
+  }
+  
+  
+  /*
+  *
+  * Primary navigation - top header **********************************************************
+  *
+  */
+  
+  .nav-primary {
+      background: transparent;
+      padding: 5px 12px;
+  }
+  
+  .primary {
+      padding: 5px 0 0 20px;
+  }
+  
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+      .nav-primary {
+          background: #0087c9;
+          padding: 5px 12px;
+          position: absolute;
+          /*height: 100%;*/
+          width: 100%;
+          z-index: 9999;
+      }
+      .primary {
+          padding: 20px 0 0 0;
+          text-align: center;
+      }
+      .user-nav {
+          padding: 5px 0 0 0;
+          text-align: center;
+      }
+      .navbar-default .navbar-nav .open .dropdown-menu&gt;li&gt;a {
+          /** todo remove this **/
+          color: #fff;
+          text-align: center;
+      }
+      .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+          background: transparent;
+          border: 0;
+      }
+  }
+  
+  
+  /*
+  *
+  * Secondary Navigation  **********************************************************
+  *
+  */
+  
+  .nav-secondary {
+      background: #0C5176;
+      box-shadow: 0 1px 13px rgba(0, 0, 0, 0.24);
+      height: 55px;
+  }
+  
+  
+  /*
+  *
+  * Tabs ***********************************************************************
+  *
+  */
+  
+  .tabs {
+      padding: 16px 0 0 0;
+      float: left;
+      margin: 0;
+  }
+  
+  .tabs li {
+      float: left;
+      list-style: none;
+  }
+  
+  .tabs li a {
+      color: #fff;
+      margin-right: 2px;
+      padding: 0 20px 15px 20px;
+      float: left;
+      opacity: .7;
+  }
+  
+  .tabs li.active a, .tabs li a:hover {
+      background: transparent!important;
+      color: #fff;
+      cursor: default;
+      border-bottom: 4px solid #fff;
+      opacity: 1;
+  }
+  
+  
+  /*
+  *
+  * nav-secondary-tabs  ***********************************************************************
+  *
+  */
+  
+  .nav-secondary-tabs {
+      background-color: rgba(0, 0, 0, 0.05);
+      bottom: 0;
+      height: 55px;
+      position: absolute;
+      width: 100%;
+      z-index: 10;
+  }
+  
+  .nav-secondary-tabs.affix {
+      background-color: rgba(19, 19, 19, 0.62);
+      height: 55px;
+      top: 0px;
+      position: fixed;
+      z-index: 100;
+  }
+  
+  
+  /*
+  *
+  * user-nav ***********************************************************************
+  *
+  */
+  
+  .user-nav {
+      padding: 5px 0 0 0;
+  }
+  
+  
+  /*
+  *
+  * leftnav ***********************************************************************
+  *
+  */
+  
+  .leftnav a.active {
+      border-left: 1px solid;
+      background: transparent;
+      border-left: 3px solid #229ACE;
+      color: #1488C6;
+  }
+  
+  .leftnav&gt;li&gt;a {
+      position: relative;
+      display: block;
+      padding: 5px 10px 5px 20px;
+      /* line-height: 35px; */
+  }
+  
+  
+  /*
+  *
+  * layout ***********************************************************************
+  *
+  */
+  
+  .main {
+      padding: 40px 0 50px 0;
+      min-height: 400px;
+  }
+  
+  .main-content {
+      padding: 20px;
+      max-width: 1100px;
+  }
+  
+  @media (min-width: 768px) {
+      .main {
+          padding-right: 40px;
+          padding-left: 40px;
+      }
+  }
+  
+  .content {
+      padding: 80px 60px 10px 50px;
+      max-width: 1100px;
+      min-height: 500px;
+  }
+  
+  
+  /*
+  *
+  * Butons ***********************************************************************
+  *
+  */
+  
+  a.button {
+      color: #fff;
+  }
+  
+  a.button.outline-btn {
+      color: #0087C8;
+  }
+  
+  .button {
+      margin: 10px 10px 0 0;
+      font-family: Geomanist;
+      padding: 12px 35px 10px 35px;
+      min-width: 200px;
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+      float: left;
+      text-align: center;
+  }
+  
+  .button:hover {
+      color: #fff;
+      opacity: .7;
+  }
+  
+  .primary-btn {
+      background: #1488C6;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .secondary-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .transparent-btn {
+      background-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .outline-btn {
+      background: #fff;
+      border: 1px solid;
+      border-color: #0087C8;
+      text-decoration: none;
+  }
+  
+  button.button.outline-btn.newsletter {
+      margin: 0;
+  }
+  
+  .primary-btn:hover, .secondary-btn:hover, .outline-btn:hover {
+      opacity: .8;
+      text-decoration: none;
+  }
+  
+  .outline-btn:hover {
+      color: #1488C6;
+  }
+  
+  .text-link {
+      float: left;
+      width: 100%;
+      margin: 10px 0 10px 0;
+  }
+  
+  
+  /*
+  *
+  * Breadcrumbs **************************************************************
+  *
+  */
+  
+  .breadcrumb {
+      padding: 8px 15px 0 0;
+      margin: 10px 0 0 0;
+      list-style: none;
+      background-color: transparent;
+      border-radius: 4px;
+  }
+  
+  
+  /*
+  * Search *********************************************************************
+  *
+  */
+  
+  .primary-search {
+      float: left;
+      margin: 10px 15px 0 20px;
+  }
+  
+  .search-form {
+      float: left;
+      margin: 10px 15px 0 20px;
+  }
+  
+  .search-form input[type=text] {
+      background: rgb(59, 177, 236);
+      border: 0;
+      color: #0C5176;
+      border-radius: 0px;
+      margin: 0;
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+      width: 230px;
+  }
+  
+  .search-form input[type=text]:focus {
+      background: #fff;
+      box-shadow: 0;
+  }
+  
+  input[type=text], .nav-secondary-tabs.affix input[type=text] {
+      background: rgb(16, 98, 142);
+      border: 0;
+      margin: 0;
+  }
+  
+  .search-form input[type=text]::-webkit-input-placeholder {
+      color: #fff;
+  }
+  
+  .search-form input[type=text]:-moz-placeholder {
+      /* Firefox 18- */
+      color: #fff;
+  }
+  
+  .search-form input[type=text]::-moz-placeholder {
+      /* Firefox 19+ */
+      color: #fff;
+  }
+  
+  .search-form input[type=text]:-ms-input-placeholder {
+      color: #fff;
+  }
+  
+  .nav-secondary input[type=text] {
+      background: #065F8F;
+      border: 0;
+      margin: 0;
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+  }
+  
+  
+  /*
+  *
+  * Docker Blog ******************************************
+  *
+  */
+  
+  .author {
+      padding: 0 0 10px 0;
+  }
+  
+  .avatar {
+      border-radius: 50%;
+      margin: 20px 0 0;
+      width: 80px;
+  }
+  
+  .blog-post {
+      padding: 0 0 20px 0;
+      float: left;
+      width: 100%;
+      margin: 0 0 20px 0;
+  }
+  
+  .tag-list {
+      font-size: 12px;
+      color: #5a7e93;
+      font-style: italic;
+  }
+  
+  
+  /*
+  *
+  * Knowledge Base ***********************************************************************
+  *
+  */
+  
+  
+  /*
+  *
+  * Tranining ***********************************************************************
+  *
+  */
+  
+  .comp-block {
+      padding: 0 30px;
+      float: left;
+      margin: 10px 0 30px;
+  }
+  
+  .btn-set {
+      padding: 40px 0 20px 0;
+      float: left;
+  }
+  
+  .btn-center {
+      width: 250px;
+      margin: 0 auto;
+  }
+  
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+      .comp-block {
+          text-align: center;
+      }
+  }
+  
+  
+  /*
+  * Status ***********************************************************************
+  *
+  */
+  
+  
+  /*
+  * Global elper classes *********************************************************************
+  *
+  */
+  
+  .sub-header-block {
+      padding: 25px 20px 50px 0;
+  }
+  
+  .block {
+      padding: 25px 20px 10px 0;
+  }
+  
+  .block ul {
+      padding: 0;
+  }
+  
+  .block a {
+      color: #1488C6;
+  }
+  
+  
+  /*
+  *
+  * hero banner text *************************************************************
+  *
+  */
+  
+  .hero-text {
+      align-items: center;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      min-height: 12em;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      animation-name: hero;
+      animation-duration: 2s;
+  }
+  
+  .hero-text-centered {
+      -webkit-box-flex: 0;
+      -webkit-flex: none;
+      flex: none;
+      text-align: center;
+      max-width: 60%;
+  }
+  
+  .hero-text h1 {
+      color: #fff;
+  }
+  
+  .hero-text p {
+      color: #fff;
+      margin-bottom: 15px;
+      font-size: 18px;
+      line-height: 28px;
+  }
+  
+  .hero-text ul {
+      padding: 0;
+      width: 65%;
+      margin: 0 auto;
+  }
+  
+  .hero-text li {
+      padding: 0 10px 0 0;
+  }
+  
+  
+  /* Portrait and Landscape */
+  
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+      .hero-text {
+          position: absolute;
+          top: 75px;
+      }
+      .hero-text-centered {
+          flex: none;
+          text-align: center;
+          max-width: 80%;
+      }
+      .hero-text li {
+          float: left;
+          margin: 10px 0 0 0;
+      }
+  }
+  
+  
+  /*
+  *
+  * Custom Content****************************************************************
+  *
+  */
+  
+  .strip, .strip-alt {
+      padding: 70px 0 50px 0;
+      min-height: 300px;
+      width: 100%;
+  }
+  
+  .strip-alt {
+      background: #1488c6;
+      color: #fff;
+  }
+  
+  .strip-alt h3, .strip-alt h6 {
+      color: #fff;
+  }
+  
+  .color-strip {
+      background: #1488c6;
+      height: 300px;
+      width: 100%;
+  }
+  
+  .illustration {
+      max-width: 944px;
+      margin: 0 auto;
+  }
+  
+  
+  /*
+  *
+  * News letter  **********************************************************
+  *
+  */
+  
+  .newsletter_section {
+      background-color: rgba(224, 228, 231, 0.7);
+      padding: 42px 0 32px 0;
+      min-height: 140px;
+  }
+  
+  .newsletter_section input {
+      background-color: #FFFFFF;
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 2px;
+      font-family: Geomanist;
+      font-size: 16px;
+      line-height: 19px;
+      color: #82949E;
+      padding: 14px 15px 12px 15px;
+      margin: -2px 10px 10px 0;
+      float: left;
+      height: 49px;
+      width: 340px!important;
+  }
+  
+  
+  /*
+  *
+  * global footer  ***********************************************************************
+  *
+  */
+  
+  footer {
+      background: #fff;
+      border-top: 1px solid #E0E4E7;
+      position: static;
+  }
+  
+  .top_footer {
+      padding: 50px 0 35px 0;
+  }
+  
+  .footer_links {
+      list-style: none;
+      padding: 0;
+  }
+  
+  .footer_links li {
+      margin-bottom: 10px;
+  }
+  
+  .footer_links li a {
+      font-size: 12px;
+      line-height: 16px;
+      color: #637986;
+      text-decoration: none;
+  }
+  
+  .footer_sub_nav {
+      float: right;
+      padding: 10px 30px 20px 0;
+  }
+  
+  .footer_sub_nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+  }
+  
+  .footer_sub_nav ul li {
+      float: left;
+      margin-left: 10px;
+      padding-bottom: 6px;
+  }
+  
+  .footer_sub_nav ul li a {
+      font-size: 12px;
+      line-height: 17px;
+      color: #637986;
+  }
+  
+  .bottom_footer {
+      clear: both;
+      padding: 30px 0 20px 0;
+      border-top: 1px solid #E0E4E7;
+      float: left;
+      width: 100%;
+  }
+  
+  .footer-copyright {
+      float: left;
+  }
+  
+  .footer-copyright p {
+      font-family: &quot;Open Sans&quot;;
+      font-size: 12px;
+      line-height: 17px;
+      color: #637986;
+      margin-bottom: 0;
+      padding: 0px 0px 15px 0;
+  }
+  
+  .footer_social_nav {
+      float: right;
+      padding: 0 15px 0 0;
+  }
+  
+  .footer_social_nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+  
+  .footer_social_nav ul li {
+      float: left;
+      position: relative;
+  }
+  
+  .footer_social_nav ul li:before {
+      color: #fff;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+  }
+  
+  .footer_social_nav ul li+li {
+      margin-left: 10px;
+  }
+  
+  .footer_social_nav ul li a {
+      width: 32px;
+      height: 32px;
+      background-color: #82949E;
+      border-radius: 50px;
+      color: #fff;
+      display: block;
+      text-indent: 9999px;
+      overflow: hidden;
+  }
+  
+  
+  /* Portrait and Landscape */
+  
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+      .top_footer {
+          padding: 15px 0 0 0;
+          margin-bottom: 50px;
+      }
+      .footer_links {
+          padding: 10px 0 10px 0;
+      }
+      button.outline-btn {
+          margin: 20px 0 0 2px;
+      }
+      .footer_sub_nav {
+          float: left;
+      }
+      .footer_sub_nav ul li {
+          float: none;
+          padding-bottom: 6px;
+          margin: 0;
+      }
+  }
+  
+  
+  /*
+  *
+  * Bootstrap Overrides  ***********************************************************************
+  *
+  */
+  
+  .navbar-nav li a {
+      color: #fff!important;
+  }
+  
+  .navbar-collapse, .navbar-form {
+      border-color: transparent;
+  }
+  
+  .navbar-toggle .icon-bar {
+      background-color: #fff!important;
+  }
+  
+  .nav li a:focus, .nav li a:hover {
+      background-color: transparent;
+  }
+  
+  .dropdown-menu li a {
+      font-size: 13.5px;
+      line-height: 16px;
+      color: #1488c6 !important;
+      padding: 5px 15px;
+      display: block;
+  }
+  
+  .nav .open a, .nav .open a:focus, .nav .open a:hover {
+      background-color: transparent;
+      border-color: #337ab7;
+  }
+  
+  .dropdown-header {
+      font-size: 13.5px;
+      line-height: 16px;
+      color: #1488c6;
+      padding: 10px 0 0 15px;
+      display: block;
+      font-weight: 600;
+      margin: 10px 0 0 0;
+  }
+  
+  .break {
+    margin-bottom: 20px!important;
+  }
+  
+  /*
+   * Site Specific Overrides
+   */
+  
+  input[type=text], .nav-secondary-tabs.affix input[type=text] {
+      background: #fff;
+      border: 1px solid #ccc;
+      margin: 0;
+  }
+  
+  /* .component:nth-child(even) {background: rgba(240, 240, 240, 0.35);*/
+  
+  .component {
+      border-top: none!important;
+      border-left: none!important;
+      border-right: none!important;
+      margin: 0 0 10px 0;
+      border-bottom: 1px solid #e0e4e7!important;
+  }
+  
+  .section_border_1 {
+      background-color: transparent!important;
+     border: 1px solid rgba(201, 201, 201, 0.27)!important;
+  }
+  
+  .btn-default {
+      background: #fff;
+      border: 1px solid;
+      border-color: #0087C8;
+      color: #0087C8;
+      text-decoration: none;
+      margin: 0;
+  }
+  
+  .nav-pills &gt; li &gt; a {
+      background-color: #1488C6!important;
+      box-shadow: 0 1px 0 0 rgba(0,0,0,0.2)!important;
+      border: 1px solid rgba(0,0,0,0.1)!important;
+      color: #FFF!important;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.2)!important;
+  }</style><!-- IE10 viewport hack for Surface/desktop Windows 8 bug --><script src="//static.status.io/public/statuspage/js/ie10-viewport-bug-workaround.min.js"></script><!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --><!-- WARNING: Respond.js doesn't work if you view the page via file:// --><!--if lt IE 9script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+  script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  --><!-- Clicky Analytics--><script>var clicky_site_ids = clicky_site_ids || [];
+  clicky_site_ids.push('100794436');</script><script async="" src="//static.getclicky.com/js"></script></head><body><!-- Custom Body-->    <header class="header">
+          <div class="fan"></div>
+              <div class="row">
+                  <nav class="nav-primary">
+                      <div class="container">
+                          <div class="navbar-header">
+                             <svg width="206" height="24" viewBox="0 0 206 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M39.2823 15.7786C39.1329 16.1182 38.9297 16.4163 38.6723 16.6726C38.4148 16.9293 38.1122 17.1326 37.7652 17.2822C37.418 17.4321 37.0466 17.5069 36.6505 17.5069C36.2491 17.5069 35.875 17.4321 35.5278 17.2822C35.1805 17.1326 34.8796 16.9311 34.6252 16.6765C34.3702 16.4227 34.1681 16.125 34.019 15.783C33.87 15.4406 33.7953 15.0769 33.7953 14.6921C33.7953 14.3072 33.87 13.9438 34.019 13.6014C34.1681 13.2597 34.3702 12.9614 34.6252 12.7071C34.8796 12.4539 35.1805 12.2518 35.5278 12.1019C35.875 11.9526 36.2491 11.8775 36.6505 11.8775C37.0466 11.8775 37.418 11.9526 37.7652 12.1019C38.1122 12.2518 38.4148 12.4551 38.6723 12.7115C38.9297 12.9681 39.1329 13.2659 39.2823 13.6058C39.4314 13.9452 39.5061 14.3072 39.5061 14.6921C39.5061 15.0769 39.4314 15.4395 39.2823 15.7786ZM40.3521 6.35229C40.1081 6.35229 39.9057 6.4315 39.7459 6.58902C39.5858 6.74712 39.5061 6.946 39.5061 7.18624V11.1879C38.6815 10.5299 37.7298 10.2017 36.6505 10.2017C35.3924 10.2017 34.3184 10.6397 33.4292 11.5167C32.5395 12.3938 32.0952 13.4518 32.0952 14.6921C32.0952 15.9323 32.5395 16.9909 33.4292 17.8677C34.3184 18.7444 35.3924 19.1824 36.6505 19.1824C37.8977 19.1824 38.9716 18.7444 39.8721 17.8677C40.7615 17.0015 41.2061 15.9428 41.2061 14.6921V7.18624C41.2061 6.946 41.1234 6.74712 40.9582 6.58902C40.7925 6.4315 40.5907 6.35229 40.3521 6.35229Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M49.2756 15.7783C49.1262 16.118 48.9223 16.416 48.6649 16.6724C48.4075 16.929 48.1049 17.1323 47.7582 17.2819C47.411 17.4318 47.0396 17.5066 46.6435 17.5066C46.2421 17.5066 45.868 17.4318 45.5213 17.2819C45.1741 17.1323 44.8729 16.9308 44.6179 16.6762C44.3629 16.4224 44.1611 16.1247 44.0117 15.7827C43.8626 15.4404 43.7879 15.0766 43.7879 14.6918C43.7879 14.3069 43.8626 13.9435 44.0117 13.6012C44.1611 13.2594 44.3629 12.9611 44.6179 12.7068C44.8729 12.4536 45.1741 12.2515 45.5213 12.1016C45.868 11.9523 46.2421 11.8772 46.6435 11.8772C47.0396 11.8772 47.411 11.9523 47.7582 12.1016C48.1049 12.2515 48.4075 12.4548 48.6649 12.7112C48.9223 12.9678 49.1262 13.2656 49.2756 13.6056C49.4244 13.9449 49.4988 14.3069 49.4988 14.6918C49.4988 15.0766 49.4244 15.4392 49.2756 15.7783ZM49.8648 11.5164C48.9646 10.6394 47.8906 10.2014 46.6435 10.2014C45.385 10.2014 44.3114 10.6394 43.4222 11.5164C42.5328 12.3935 42.0879 13.4516 42.0879 14.6918C42.0879 15.932 42.5328 16.9906 43.4222 17.8674C44.3114 18.7442 45.385 19.1821 46.6435 19.1821C47.8906 19.1821 48.9646 18.7442 49.8648 17.8674C50.7542 17.0012 51.1994 15.9425 51.1994 14.6918C51.1935 14.0717 51.081 13.4973 50.8617 12.9678C50.642 12.4387 50.3096 11.955 49.8648 11.5164Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M68.6996 11.0354C68.6996 10.923 68.677 10.8165 68.6308 10.7147C68.5844 10.6133 68.5237 10.5238 68.4475 10.4461C68.3717 10.3689 68.2821 10.3088 68.1791 10.2654C68.0762 10.2228 67.9646 10.2017 67.8455 10.2017C67.6774 10.2017 67.5257 10.2445 67.3903 10.3299L62.5258 13.4492V7.19445C62.5258 6.9592 62.4428 6.76032 62.2774 6.59694C62.1122 6.43414 61.9128 6.35229 61.6792 6.35229C61.4406 6.35229 61.2388 6.43414 61.0737 6.59694C60.9082 6.76032 60.8252 6.9592 60.8252 7.19445V18.3405C60.8252 18.5705 60.9082 18.7685 61.0737 18.9339C61.2388 19.0997 61.4406 19.1824 61.6792 19.1824C61.9128 19.1824 62.1122 19.0997 62.2774 18.9339C62.4428 18.7685 62.5258 18.5705 62.5258 18.3405V15.4456L63.5182 14.8047L67.2766 18.9662C67.428 19.1105 67.6179 19.1824 67.8455 19.1824C67.9646 19.1824 68.0762 19.1613 68.1791 19.1185C68.2821 19.0759 68.3717 19.0158 68.4475 18.938C68.5237 18.8609 68.5844 18.7708 68.6308 18.6694C68.677 18.5684 68.6996 18.4605 68.6996 18.3487C68.6996 18.1299 68.6207 17.9346 68.4639 17.763L64.9659 13.8822L68.3743 11.7009C68.5913 11.5563 68.6996 11.3351 68.6996 11.0354Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M54.5866 12.6992C54.8467 12.4454 55.1505 12.2448 55.4978 12.0978C55.8451 11.9509 56.2165 11.8772 56.6125 11.8772C56.9702 11.8772 57.3005 11.9362 57.605 12.0535C57.9079 12.1714 58.1986 12.3454 58.4751 12.5748C58.6378 12.703 58.8223 12.7672 59.0283 12.7672C59.2723 12.7672 59.474 12.6871 59.6341 12.5267C59.7939 12.3662 59.8746 12.1656 59.8746 11.9253C59.8746 11.6742 59.7767 11.463 59.5815 11.2917C58.7462 10.5649 57.7567 10.2014 56.6125 10.2014C55.3538 10.2014 54.2798 10.6394 53.391 11.5164C52.5015 12.3935 52.0566 13.4516 52.0566 14.6918C52.0566 15.932 52.5015 16.9906 53.391 17.8674C54.2798 18.7442 55.3538 19.1821 56.6125 19.1821C57.7511 19.1821 58.7408 18.8187 59.5815 18.0918C59.7603 17.9152 59.8499 17.7099 59.8499 17.4743C59.8499 17.2338 59.7695 17.0346 59.61 16.8768C59.4499 16.7193 59.2476 16.6401 59.0039 16.6401C58.7979 16.6457 58.6188 16.7043 58.4667 16.8167C58.1959 17.0466 57.9079 17.2191 57.605 17.3341C57.3005 17.4488 56.9702 17.5066 56.6125 17.5066C56.2165 17.5066 55.8451 17.4327 55.4978 17.286C55.1505 17.139 54.8467 16.9384 54.5866 16.6847C54.326 16.4306 54.1215 16.1326 53.9724 15.7903C53.8234 15.4483 53.7487 15.0822 53.7487 14.6918C53.7487 14.3019 53.8234 13.9353 53.9724 13.5929C54.1215 13.2512 54.326 12.9532 54.5866 12.6992Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M85.5975 10.7623C85.4457 10.6182 85.2544 10.5047 85.0244 10.4214C84.7937 10.339 84.5414 10.2812 84.2679 10.2489C83.9938 10.217 83.737 10.2014 83.499 10.2014C82.9565 10.2014 82.4464 10.2868 81.9694 10.4578C81.4921 10.6291 81.0505 10.8746 80.6434 11.1958V11.0351C80.6434 10.8057 80.561 10.6089 80.3952 10.4458C80.2301 10.2827 80.0301 10.2014 79.7974 10.2014C79.5585 10.2014 79.357 10.2827 79.1912 10.4458C79.0261 10.6089 78.9434 10.8057 78.9434 11.0351V18.3485C78.9434 18.5784 79.0261 18.7747 79.1912 18.9378C79.357 19.1009 79.5585 19.1821 79.7974 19.1821C80.0301 19.1821 80.2301 19.1009 80.3952 18.9378C80.561 18.7747 80.6434 18.5784 80.6434 18.3485V14.6918C80.6434 14.3019 80.7184 13.9353 80.8672 13.5929C81.0163 13.2512 81.2195 12.9532 81.4772 12.6992C81.7349 12.4454 82.037 12.2448 82.3842 12.0978C82.7309 11.9509 83.1029 11.8772 83.499 11.8772C83.9001 11.8772 84.2715 11.9441 84.6134 12.0779C84.7488 12.1365 84.8681 12.1656 84.9714 12.1656C85.0901 12.1656 85.2014 12.1448 85.305 12.1016C85.4076 12.0588 85.4972 11.999 85.5731 11.9212C85.649 11.8441 85.71 11.7543 85.7564 11.6522C85.8025 11.5513 85.8254 11.4416 85.8254 11.3237C85.8254 11.094 85.7493 10.9066 85.5975 10.7623Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M70.7284 13.8686C70.815 13.5749 70.9483 13.3065 71.1268 13.0628C71.306 12.8199 71.5173 12.611 71.7616 12.4371C72.0056 12.264 72.2743 12.1288 72.5668 12.032C72.8596 11.9364 73.1605 11.8883 73.4697 11.8883C73.7788 11.8883 74.0782 11.9364 74.3683 12.032C74.6588 12.1288 74.9245 12.264 75.1656 12.4371C75.4069 12.611 75.6188 12.8199 75.8 13.0628C75.9824 13.3065 76.119 13.5749 76.2112 13.8686H70.7284ZM77.6917 12.9745C77.4691 12.443 77.1355 11.9601 76.6915 11.5272C75.7905 10.6504 74.7168 10.2122 73.4697 10.2122C72.2115 10.2122 71.1376 10.6504 70.2484 11.5272C69.3586 12.4045 68.9141 13.4623 68.9141 14.7028C68.9141 15.943 69.3586 17.0017 70.2484 17.8784C71.1376 18.7549 72.2115 19.1934 73.4697 19.1934C74.6139 19.1934 75.6063 18.8297 76.4472 18.1028C76.4588 18.0923 76.4779 18.0753 76.4808 18.0723C76.5546 18.0116 76.6171 17.9465 76.6725 17.8646C76.9436 17.4654 76.8469 16.9327 76.4559 16.6746C76.1261 16.4566 75.6949 16.5065 75.4048 16.7667C75.3774 16.7913 75.2977 16.8647 75.284 16.8758C75.2798 16.879 75.2763 16.8826 75.2721 16.8858C75.02 17.0946 74.7472 17.2519 74.4541 17.3569C74.1553 17.4639 73.828 17.5176 73.4697 17.5176C73.1548 17.5176 72.8528 17.4695 72.5624 17.3727C72.2728 17.2765 72.0065 17.1419 71.7654 16.9682C71.5241 16.7946 71.314 16.5863 71.1352 16.3425C70.956 16.0997 70.82 15.831 70.7284 15.5367H77.1712C77.4093 15.5367 77.6113 15.4578 77.7768 15.3C77.9425 15.1425 78.0253 14.943 78.0253 14.7028C78.0253 14.083 77.9137 13.5069 77.6917 12.9745Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M82.6944 19.007C82.4307 19.007 82.2376 18.8029 82.2376 18.5459C82.2376 18.2928 82.4307 18.0854 82.6911 18.0854C82.9519 18.0854 83.1405 18.2928 83.1405 18.5497C83.1405 18.8029 82.9519 19.007 82.6944 19.007ZM82.6911 17.9692C82.3557 17.9692 82.0879 18.2262 82.0879 18.5459C82.0879 18.8736 82.3557 19.1302 82.6911 19.1302C83.0301 19.1302 83.2905 18.8736 83.2905 18.5459C83.2905 18.2262 83.0301 17.9692 82.6911 17.9692Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M82.666 18.5214H82.6017V18.356C82.616 18.3525 82.641 18.3492 82.6767 18.3492C82.7624 18.3492 82.8017 18.3844 82.8017 18.4369C82.8017 18.4968 82.741 18.5214 82.666 18.5214ZM82.8267 18.5637V18.5566C82.8978 18.5355 82.9478 18.4862 82.9478 18.4229C82.9478 18.3665 82.9228 18.3208 82.891 18.2964C82.8478 18.2718 82.7981 18.2539 82.6874 18.2539C82.591 18.2539 82.516 18.2612 82.4624 18.2718V18.8488H82.5981V18.6165H82.6624C82.7374 18.6165 82.7731 18.6443 82.7835 18.7077C82.8017 18.7749 82.8124 18.8274 82.83 18.8488H82.9767C82.9621 18.8274 82.9517 18.7922 82.9335 18.7042C82.916 18.627 82.8835 18.5848 82.8267 18.5637Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M30.5352 8.23544C30.4516 8.16885 29.6702 7.58805 28.0237 7.58805C27.6118 7.58805 27.1774 7.62501 26.7259 7.69805C26.4078 5.54469 24.6045 4.49573 24.5206 4.44821L24.0781 4.19653L23.7865 4.61043C23.7647 4.64123 23.2523 5.37632 23.0009 6.42264C22.7057 7.65141 22.8848 8.80509 23.5183 9.79274C22.7533 10.2122 21.532 10.3216 21.2785 10.3249H0.965199C0.435212 10.3249 0.00223632 10.7493 0.000153271 11.2711C-0.00788134 13.1127 0.300112 14.8923 0.890507 16.4174C1.59071 18.2261 2.63223 19.5575 3.98562 20.375C5.50356 21.2914 7.97495 21.8171 10.7656 21.8171C12.0714 21.8171 13.373 21.7009 14.5294 21.4809C16.3518 21.1348 18.0063 20.5425 19.4466 19.7215C20.7027 19.0055 21.8308 18.0947 22.7997 17.0152C24.4093 15.2206 25.3681 13.2162 26.0811 11.4425C26.1772 11.4463 26.2718 11.448 26.3653 11.448C28.1272 11.448 29.2107 10.754 29.8091 10.1714C30.4582 9.5396 30.6891 8.90981 30.7132 8.84L30.8394 8.47597L30.5352 8.23544Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.84774 9.7392H5.56998C5.70121 9.7392 5.80804 9.63418 5.80804 9.50424V7.11387C5.80804 6.98392 5.70121 6.87891 5.56998 6.87891H2.84774C2.71621 6.87891 2.60938 6.98392 2.60938 7.11387V9.50424C2.60938 9.63418 2.71621 9.7392 2.84774 9.7392Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5992 9.7392H9.32084C9.45267 9.7392 9.5592 9.63418 9.5592 9.50424V7.11387C9.5592 6.98392 9.45267 6.87891 9.32084 6.87891H6.5992C6.46737 6.87891 6.36084 6.98392 6.36084 7.11387V9.50424C6.36084 9.63418 6.46737 9.7392 6.5992 9.7392Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.408 9.7392H13.1299C13.2615 9.7392 13.3683 9.63418 13.3683 9.50424V7.11387C13.3683 6.98392 13.2615 6.87891 13.1299 6.87891H10.408C10.2765 6.87891 10.1699 6.98392 10.1699 7.11387V9.50424C10.1699 9.63418 10.2765 9.7392 10.408 9.7392Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1715 9.7392H16.8934C17.0252 9.7392 17.1318 9.63418 17.1318 9.50424V7.11387C17.1318 6.98392 17.0252 6.87891 16.8934 6.87891H14.1715C14.0402 6.87891 13.9331 6.98392 13.9331 7.11387V9.50424C13.9331 9.63418 14.0402 9.7392 14.1715 9.7392Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5992 6.29974H9.32084C9.45267 6.29974 9.5592 6.19473 9.5592 6.06508V3.67441C9.5592 3.54476 9.45267 3.43945 9.32084 3.43945H6.5992C6.46737 3.43945 6.36084 3.54476 6.36084 3.67441V6.06508C6.36084 6.19473 6.46737 6.29974 6.5992 6.29974Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.408 6.29974H13.1299C13.2615 6.29974 13.3683 6.19473 13.3683 6.06508V3.67441C13.3683 3.54476 13.2615 3.43945 13.1299 3.43945H10.408C10.2765 3.43945 10.1699 3.54476 10.1699 3.67441V6.06508C10.1699 6.19473 10.2765 6.29974 10.408 6.29974Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1715 6.29974H16.8934C17.0252 6.29974 17.1318 6.19473 17.1318 6.06508V3.67441C17.1318 3.54476 17.0252 3.43945 16.8934 3.43945H14.1715C14.0402 3.43945 13.9331 3.54476 13.9331 3.67441V6.06508C13.9331 6.19473 14.0402 6.29974 14.1715 6.29974Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1715 2.86029H16.8934C17.0252 2.86029 17.1318 2.75498 17.1318 2.62533V0.23496C17.1318 0.105013 17.0252 0 16.8934 0H14.1715C14.0402 0 13.9331 0.105013 13.9331 0.23496V2.62533C13.9331 2.75498 14.0402 2.86029 14.1715 2.86029Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9683 9.7392H20.69C20.8218 9.7392 20.9283 9.63418 20.9283 9.50424V7.11387C20.9283 6.98392 20.8218 6.87891 20.69 6.87891H17.9683C17.8365 6.87891 17.73 6.98392 17.73 7.11387V9.50424C17.73 9.63418 17.8365 9.7392 17.9683 9.7392Z" fill="white"/>
+  <path d="M99.794 9.63292C100.531 9.63292 101.188 9.75192 101.766 9.98992C102.355 10.2279 102.82 10.5566 103.16 10.9759C103.307 11.1573 103.381 11.3386 103.381 11.5199C103.381 11.7126 103.285 11.8883 103.092 12.0469C102.967 12.1376 102.809 12.1829 102.616 12.1829C102.321 12.1829 102.055 12.0753 101.817 11.8599C101.534 11.5993 101.233 11.4179 100.916 11.3159C100.599 11.2026 100.213 11.1459 99.76 11.1459C99.2386 11.1459 98.808 11.2366 98.468 11.4179C98.1393 11.5879 97.975 11.8316 97.975 12.1489C97.975 12.3756 98.0316 12.5683 98.145 12.7269C98.2583 12.8743 98.4736 13.0159 98.791 13.1519C99.1083 13.2766 99.5673 13.4013 100.168 13.5259C101.403 13.7753 102.276 14.1209 102.786 14.5629C103.307 15.0049 103.568 15.5773 103.568 16.2799C103.568 16.8013 103.426 17.2773 103.143 17.7079C102.86 18.1273 102.44 18.4616 101.885 18.7109C101.341 18.9489 100.684 19.0679 99.913 19.0679C99.1423 19.0679 98.417 18.9489 97.737 18.7109C97.057 18.4729 96.5243 18.1613 96.139 17.7759C95.9916 17.6286 95.918 17.4529 95.918 17.2489C95.918 16.9769 96.0313 16.7559 96.258 16.5859C96.4733 16.4273 96.6716 16.3479 96.853 16.3479C97.0796 16.3479 97.295 16.4499 97.499 16.6539C97.7143 16.8919 98.0373 17.1016 98.468 17.2829C98.8986 17.4529 99.3576 17.5379 99.845 17.5379C100.491 17.5379 100.99 17.4303 101.341 17.2149C101.704 16.9996 101.885 16.7106 101.885 16.3479C101.885 15.9966 101.709 15.7076 101.358 15.4809C101.007 15.2429 100.412 15.0446 99.573 14.8859C97.397 14.4666 96.309 13.5713 96.309 12.1999C96.309 11.6446 96.4733 11.1743 96.802 10.7889C97.1306 10.4036 97.5613 10.1146 98.094 9.92192C98.6266 9.72925 99.1933 9.63292 99.794 9.63292Z" fill="#ACD6FF"/>
+  <path d="M112.016 9.78592C112.368 9.92192 112.543 10.1429 112.543 10.4489C112.543 10.5623 112.509 10.6983 112.441 10.8569L107.239 22.5529C107.103 22.9043 106.882 23.0799 106.576 23.0799C106.463 23.0799 106.327 23.0459 106.168 22.9779C105.828 22.8306 105.658 22.6096 105.658 22.3149C105.658 22.1789 105.692 22.0429 105.76 21.9069L107.46 18.0819L103.635 10.8229C103.579 10.7209 103.55 10.6019 103.55 10.4659C103.55 10.3186 103.596 10.1826 103.686 10.0579C103.777 9.93325 103.896 9.83692 104.043 9.76892C104.145 9.72359 104.259 9.70092 104.383 9.70092C104.701 9.70092 104.939 9.85959 105.097 10.1769L108.208 16.3649L110.945 10.1939C111.093 9.86525 111.314 9.70092 111.608 9.70092C111.756 9.70092 111.892 9.72925 112.016 9.78592Z" fill="#ACD6FF"/>
+  <path d="M116.489 9.63292C117.225 9.63292 117.883 9.75192 118.461 9.98992C119.05 10.2279 119.514 10.5566 119.854 10.9759C120.002 11.1573 120.076 11.3386 120.076 11.5199C120.076 11.7126 119.979 11.8883 119.787 12.0469C119.662 12.1376 119.503 12.1829 119.311 12.1829C119.016 12.1829 118.75 12.0753 118.512 11.8599C118.228 11.5993 117.928 11.4179 117.611 11.3159C117.293 11.2026 116.908 11.1459 116.455 11.1459C115.933 11.1459 115.503 11.2366 115.163 11.4179C114.834 11.5879 114.67 11.8316 114.67 12.1489C114.67 12.3756 114.726 12.5683 114.84 12.7269C114.953 12.8743 115.168 13.0159 115.486 13.1519C115.803 13.2766 116.262 13.4013 116.863 13.5259C118.098 13.7753 118.971 14.1209 119.481 14.5629C120.002 15.0049 120.263 15.5773 120.263 16.2799C120.263 16.8013 120.121 17.2773 119.837 17.7079C119.554 18.1273 119.135 18.4616 118.58 18.7109C118.036 18.9489 117.378 19.0679 116.608 19.0679C115.837 19.0679 115.111 18.9489 114.431 18.7109C113.751 18.4729 113.219 18.1613 112.833 17.7759C112.686 17.6286 112.612 17.4529 112.612 17.2489C112.612 16.9769 112.726 16.7559 112.952 16.5859C113.168 16.4273 113.366 16.3479 113.548 16.3479C113.774 16.3479 113.99 16.4499 114.194 16.6539C114.409 16.8919 114.732 17.1016 115.163 17.2829C115.593 17.4529 116.052 17.5379 116.54 17.5379C117.186 17.5379 117.684 17.4303 118.035 17.2149C118.398 16.9996 118.58 16.7106 118.58 16.3479C118.58 15.9966 118.404 15.7076 118.052 15.4809C117.701 15.2429 117.106 15.0446 116.267 14.8859C114.091 14.4666 113.003 13.5713 113.003 12.1999C113.003 11.6446 113.168 11.1743 113.497 10.7889C113.825 10.4036 114.256 10.1146 114.788 9.92192C115.321 9.72925 115.888 9.63292 116.489 9.63292Z" fill="#ACD6FF"/>
+  <path d="M125.566 17.2999C125.77 17.2999 125.94 17.3793 126.076 17.5379C126.223 17.6966 126.297 17.9006 126.297 18.1499C126.297 18.3993 126.201 18.6033 126.008 18.7619C125.827 18.9206 125.589 18.9999 125.294 18.9999H124.988C124.433 18.9999 123.923 18.8583 123.458 18.5749C123.005 18.2803 122.648 17.8836 122.387 17.3849C122.126 16.8863 121.996 16.3253 121.996 15.7019V11.5029H121.214C120.976 11.5029 120.783 11.4349 120.636 11.2989C120.489 11.1629 120.415 10.9929 120.415 10.7889C120.415 10.5623 120.489 10.3809 120.636 10.2449C120.783 10.1089 120.976 10.0409 121.214 10.0409H121.996V7.59292C121.996 7.34359 122.075 7.13959 122.234 6.98092C122.393 6.82225 122.597 6.74292 122.846 6.74292C123.095 6.74292 123.299 6.82225 123.458 6.98092C123.617 7.13959 123.696 7.34359 123.696 7.59292V10.0409H125.141C125.379 10.0409 125.572 10.1089 125.719 10.2449C125.866 10.3809 125.94 10.5623 125.94 10.7889C125.94 10.9929 125.866 11.1629 125.719 11.2989C125.572 11.4349 125.379 11.5029 125.141 11.5029H123.696V15.7019C123.696 16.1553 123.821 16.5349 124.07 16.8409C124.319 17.1469 124.625 17.2999 124.988 17.2999H125.566Z" fill="#ACD6FF"/>
+  <path d="M135.925 14.2059C135.925 14.4213 135.852 14.6026 135.704 14.7499C135.557 14.8859 135.37 14.9539 135.143 14.9539H128.683C128.808 15.7473 129.165 16.3876 129.754 16.8749C130.355 17.3623 131.086 17.6059 131.947 17.6059C132.287 17.6059 132.639 17.5436 133.001 17.4189C133.375 17.2943 133.681 17.1413 133.919 16.9599C134.078 16.8353 134.265 16.7729 134.48 16.7729C134.696 16.7729 134.866 16.8296 134.99 16.9429C135.194 17.1129 135.296 17.3056 135.296 17.5209C135.296 17.7249 135.206 17.8949 135.024 18.0309C134.639 18.3369 134.157 18.5863 133.579 18.7789C133.013 18.9716 132.469 19.0679 131.947 19.0679C131.018 19.0679 130.185 18.8696 129.448 18.4729C128.712 18.0649 128.134 17.5039 127.714 16.7899C127.306 16.0759 127.102 15.2656 127.102 14.3589C127.102 13.4523 127.295 12.6419 127.68 11.9279C128.077 11.2026 128.621 10.6416 129.312 10.2449C130.015 9.83692 130.808 9.63292 131.692 9.63292C132.565 9.63292 133.319 9.82559 133.953 10.2109C134.588 10.5963 135.075 11.1346 135.415 11.8259C135.755 12.5173 135.925 13.3106 135.925 14.2059ZM131.692 11.0949C130.865 11.0949 130.191 11.3216 129.669 11.7749C129.159 12.2283 128.836 12.8346 128.7 13.5939H134.361C134.259 12.8346 133.976 12.2283 133.511 11.7749C133.047 11.3216 132.44 11.0949 131.692 11.0949Z" fill="#ACD6FF"/>
+  <path d="M147.062 9.61592C148.048 9.61592 148.841 9.93892 149.442 10.5849C150.054 11.2309 150.36 12.1319 150.36 13.2879V18.1499C150.36 18.3993 150.28 18.6089 150.122 18.7789C149.963 18.9376 149.753 19.0169 149.493 19.0169C149.243 19.0169 149.034 18.9376 148.864 18.7789C148.705 18.6089 148.626 18.3993 148.626 18.1499V13.2879C148.626 12.5966 148.45 12.0753 148.099 11.7239C147.759 11.3613 147.3 11.1799 146.722 11.1799C146.132 11.1799 145.645 11.3839 145.26 11.7919C144.886 12.1999 144.699 12.7213 144.699 13.3559V18.1499C144.699 18.3993 144.619 18.6089 144.461 18.7789C144.302 18.9376 144.092 19.0169 143.832 19.0169C143.582 19.0169 143.373 18.9376 143.203 18.7789C143.044 18.6089 142.965 18.3993 142.965 18.1499V13.2879C142.965 12.5966 142.789 12.0753 142.438 11.7239C142.098 11.3613 141.639 11.1799 141.061 11.1799C140.46 11.1799 139.967 11.3839 139.582 11.7919C139.208 12.1999 139.021 12.7213 139.021 13.3559V18.1499C139.021 18.3993 138.941 18.6089 138.783 18.7789C138.624 18.9376 138.414 19.0169 138.154 19.0169C137.904 19.0169 137.695 18.9376 137.525 18.7789C137.366 18.6089 137.287 18.3993 137.287 18.1499V10.5849C137.287 10.3243 137.366 10.1146 137.525 9.95592C137.695 9.79725 137.904 9.71792 138.154 9.71792C138.403 9.71792 138.607 9.79725 138.766 9.95592C138.924 10.1033 139.009 10.3016 139.021 10.5509C139.315 10.2563 139.667 10.0296 140.075 9.87092C140.483 9.70092 140.925 9.61592 141.401 9.61592C141.979 9.61592 142.494 9.73492 142.948 9.97292C143.412 10.1996 143.792 10.5283 144.087 10.9589C144.427 10.5396 144.852 10.2109 145.362 9.97292C145.872 9.73492 146.438 9.61592 147.062 9.61592Z" fill="#ACD6FF"/>
+  <path d="M159.785 9.63292C160.522 9.63292 161.179 9.75192 161.757 9.98992C162.347 10.2279 162.811 10.5566 163.151 10.9759C163.299 11.1573 163.372 11.3386 163.372 11.5199C163.372 11.7126 163.276 11.8883 163.083 12.0469C162.959 12.1376 162.8 12.1829 162.607 12.1829C162.313 12.1829 162.046 12.0753 161.808 11.8599C161.525 11.5993 161.225 11.4179 160.907 11.3159C160.59 11.2026 160.205 11.1459 159.751 11.1459C159.23 11.1459 158.799 11.2366 158.459 11.4179C158.131 11.5879 157.966 11.8316 157.966 12.1489C157.966 12.3756 158.023 12.5683 158.136 12.7269C158.25 12.8743 158.465 13.0159 158.782 13.1519C159.1 13.2766 159.559 13.4013 160.159 13.5259C161.395 13.7753 162.267 14.1209 162.777 14.5629C163.299 15.0049 163.559 15.5773 163.559 16.2799C163.559 16.8013 163.418 17.2773 163.134 17.7079C162.851 18.1273 162.432 18.4616 161.876 18.7109C161.332 18.9489 160.675 19.0679 159.904 19.0679C159.134 19.0679 158.408 18.9489 157.728 18.7109C157.048 18.4729 156.516 18.1613 156.13 17.7759C155.983 17.6286 155.909 17.4529 155.909 17.2489C155.909 16.9769 156.023 16.7559 156.249 16.5859C156.465 16.4273 156.663 16.3479 156.844 16.3479C157.071 16.3479 157.286 16.4499 157.49 16.6539C157.706 16.8919 158.029 17.1016 158.459 17.2829C158.89 17.4529 159.349 17.5379 159.836 17.5379C160.482 17.5379 160.981 17.4303 161.332 17.2149C161.695 16.9996 161.876 16.7106 161.876 16.3479C161.876 15.9966 161.701 15.7076 161.349 15.4809C160.998 15.2429 160.403 15.0446 159.564 14.8859C157.388 14.4666 156.3 13.5713 156.3 12.1999C156.3 11.6446 156.465 11.1743 156.793 10.7889C157.122 10.4036 157.553 10.1146 158.085 9.92192C158.618 9.72925 159.185 9.63292 159.785 9.63292Z" fill="#ACD6FF"/>
+  <path d="M168.863 17.2999C169.067 17.2999 169.237 17.3793 169.373 17.5379C169.52 17.6966 169.594 17.9006 169.594 18.1499C169.594 18.3993 169.498 18.6033 169.305 18.7619C169.124 18.9206 168.886 18.9999 168.591 18.9999H168.285C167.73 18.9999 167.22 18.8583 166.755 18.5749C166.302 18.2803 165.945 17.8836 165.684 17.3849C165.423 16.8863 165.293 16.3253 165.293 15.7019V11.5029H164.511C164.273 11.5029 164.08 11.4349 163.933 11.2989C163.786 11.1629 163.712 10.9929 163.712 10.7889C163.712 10.5623 163.786 10.3809 163.933 10.2449C164.08 10.1089 164.273 10.0409 164.511 10.0409H165.293V7.59292C165.293 7.34359 165.372 7.13959 165.531 6.98092C165.69 6.82225 165.894 6.74292 166.143 6.74292C166.392 6.74292 166.596 6.82225 166.755 6.98092C166.914 7.13959 166.993 7.34359 166.993 7.59292V10.0409H168.438C168.676 10.0409 168.869 10.1089 169.016 10.2449C169.163 10.3809 169.237 10.5623 169.237 10.7889C169.237 10.9929 169.163 11.1629 169.016 11.2989C168.869 11.4349 168.676 11.5029 168.438 11.5029H166.993V15.7019C166.993 16.1553 167.118 16.5349 167.367 16.8409C167.616 17.1469 167.922 17.2999 168.285 17.2999H168.863Z" fill="#ACD6FF"/>
+  <path d="M175.091 9.63292C175.964 9.63292 176.751 9.84259 177.454 10.2619C178.168 10.6699 178.729 11.2366 179.137 11.9619C179.556 12.6759 179.766 13.4749 179.766 14.3589V18.1499C179.766 18.3993 179.681 18.6089 179.511 18.7789C179.352 18.9376 179.148 19.0169 178.899 19.0169C178.65 19.0169 178.44 18.9376 178.27 18.7789C178.111 18.6089 178.032 18.3993 178.032 18.1499V17.5209C177.635 18.0083 177.154 18.3879 176.587 18.6599C176.02 18.9319 175.408 19.0679 174.751 19.0679C173.935 19.0679 173.193 18.8639 172.524 18.4559C171.867 18.0479 171.345 17.4869 170.96 16.7729C170.586 16.0476 170.399 15.2429 170.399 14.3589C170.399 13.4749 170.603 12.6759 171.011 11.9619C171.419 11.2366 171.98 10.6699 172.694 10.2619C173.419 9.84259 174.218 9.63292 175.091 9.63292ZM175.091 17.5379C175.658 17.5379 176.168 17.4019 176.621 17.1299C177.086 16.8466 177.448 16.4669 177.709 15.9909C177.97 15.5036 178.1 14.9596 178.1 14.3589C178.1 13.7583 177.97 13.2143 177.709 12.7269C177.448 12.2396 177.086 11.8599 176.621 11.5879C176.168 11.3046 175.658 11.1629 175.091 11.1629C174.524 11.1629 174.009 11.3046 173.544 11.5879C173.091 11.8599 172.728 12.2396 172.456 12.7269C172.195 13.2143 172.065 13.7583 172.065 14.3589C172.065 14.9596 172.195 15.5036 172.456 15.9909C172.728 16.4669 173.091 16.8466 173.544 17.1299C174.009 17.4019 174.524 17.5379 175.091 17.5379Z" fill="#ACD6FF"/>
+  <path d="M185.458 17.2999C185.662 17.2999 185.832 17.3793 185.968 17.5379C186.115 17.6966 186.189 17.9006 186.189 18.1499C186.189 18.3993 186.092 18.6033 185.9 18.7619C185.718 18.9206 185.48 18.9999 185.186 18.9999H184.88C184.324 18.9999 183.814 18.8583 183.35 18.5749C182.896 18.2803 182.539 17.8836 182.279 17.3849C182.018 16.8863 181.888 16.3253 181.888 15.7019V11.5029H181.106C180.868 11.5029 180.675 11.4349 180.528 11.2989C180.38 11.1629 180.307 10.9929 180.307 10.7889C180.307 10.5623 180.38 10.3809 180.528 10.2449C180.675 10.1089 180.868 10.0409 181.106 10.0409H181.888V7.59292C181.888 7.34359 181.967 7.13959 182.126 6.98092C182.284 6.82225 182.488 6.74292 182.738 6.74292C182.987 6.74292 183.191 6.82225 183.35 6.98092C183.508 7.13959 183.588 7.34359 183.588 7.59292V10.0409H185.033C185.271 10.0409 185.463 10.1089 185.611 10.2449C185.758 10.3809 185.832 10.5623 185.832 10.7889C185.832 10.9929 185.758 11.1629 185.611 11.2989C185.463 11.4349 185.271 11.5029 185.033 11.5029H183.588V15.7019C183.588 16.1553 183.712 16.5349 183.962 16.8409C184.211 17.1469 184.517 17.2999 184.88 17.2999H185.458Z" fill="#ACD6FF"/>
+  <path d="M195.137 9.68392C195.398 9.68392 195.607 9.76325 195.766 9.92192C195.925 10.0806 196.004 10.2903 196.004 10.5509V18.1329C196.004 18.3823 195.925 18.5919 195.766 18.7619C195.607 18.9206 195.398 18.9999 195.137 18.9999C194.888 18.9999 194.678 18.9206 194.508 18.7619C194.349 18.5919 194.27 18.3823 194.27 18.1329V17.9459C193.907 18.3086 193.477 18.5919 192.978 18.7959C192.479 18.9886 191.947 19.0849 191.38 19.0849C190.598 19.0849 189.895 18.9149 189.272 18.5749C188.649 18.2349 188.161 17.7419 187.81 17.0959C187.459 16.4386 187.283 15.6509 187.283 14.7329V10.5509C187.283 10.3016 187.362 10.0976 187.521 9.93892C187.691 9.76892 187.901 9.68392 188.15 9.68392C188.399 9.68392 188.603 9.76892 188.762 9.93892C188.932 10.0976 189.017 10.3016 189.017 10.5509V14.7329C189.017 15.6509 189.261 16.3479 189.748 16.8239C190.247 17.2886 190.904 17.5209 191.72 17.5209C192.196 17.5209 192.627 17.4246 193.012 17.2319C193.409 17.0393 193.715 16.7786 193.93 16.4499C194.157 16.1213 194.27 15.7529 194.27 15.3449V10.5509C194.27 10.2903 194.349 10.0806 194.508 9.92192C194.678 9.76325 194.888 9.68392 195.137 9.68392Z" fill="#ACD6FF"/>
+  <path d="M201.472 9.63292C202.209 9.63292 202.866 9.75192 203.444 9.98992C204.033 10.2279 204.498 10.5566 204.838 10.9759C204.985 11.1573 205.059 11.3386 205.059 11.5199C205.059 11.7126 204.963 11.8883 204.77 12.0469C204.645 12.1376 204.487 12.1829 204.294 12.1829C203.999 12.1829 203.733 12.0753 203.495 11.8599C203.212 11.5993 202.911 11.4179 202.594 11.3159C202.277 11.2026 201.891 11.1459 201.438 11.1459C200.917 11.1459 200.486 11.2366 200.146 11.4179C199.817 11.5879 199.653 11.8316 199.653 12.1489C199.653 12.3756 199.71 12.5683 199.823 12.7269C199.936 12.8743 200.152 13.0159 200.469 13.1519C200.786 13.2766 201.245 13.4013 201.846 13.5259C203.081 13.7753 203.954 14.1209 204.464 14.5629C204.985 15.0049 205.246 15.5773 205.246 16.2799C205.246 16.8013 205.104 17.2773 204.821 17.7079C204.538 18.1273 204.118 18.4616 203.563 18.7109C203.019 18.9489 202.362 19.0679 201.591 19.0679C200.82 19.0679 200.095 18.9489 199.415 18.7109C198.735 18.4729 198.202 18.1613 197.817 17.7759C197.67 17.6286 197.596 17.4529 197.596 17.2489C197.596 16.9769 197.709 16.7559 197.936 16.5859C198.151 16.4273 198.35 16.3479 198.531 16.3479C198.758 16.3479 198.973 16.4499 199.177 16.6539C199.392 16.8919 199.715 17.1016 200.146 17.2829C200.577 17.4529 201.036 17.5379 201.523 17.5379C202.169 17.5379 202.668 17.4303 203.019 17.2149C203.382 16.9996 203.563 16.7106 203.563 16.3479C203.563 15.9966 203.387 15.7076 203.036 15.4809C202.685 15.2429 202.09 15.0446 201.251 14.8859C199.075 14.4666 197.987 13.5713 197.987 12.1999C197.987 11.6446 198.151 11.1743 198.48 10.7889C198.809 10.4036 199.239 10.1146 199.772 9.92192C200.305 9.72925 200.871 9.63292 201.472 9.63292Z" fill="#ACD6FF"/>
+  </svg>
+                          </div>
+                      </div>
+                  </nav>
+          </div>
+      </header><!-- Scripts--><script src="//static.status.io/public/statuspage/js/jquery.min.js"></script><script src="//static.status.io/public/statuspage/js/bootstrap.min.js"></script><script src="//static.status.io/public/statuspage/js/Autolinker.min.js"></script><div class="container"><!-- Header text--><div class="header" id="statusio_header"><div class="row"><div class="col-md-10 col-sm-10 col-xs-12"><p class="statuspage_name">Docker system status real-time view</p></div><div class="col-md-2 col-sm-2"><ul class="nav nav-pills pull-right"><li class="active"><button class="btn btn-default make_round hidden-xs" id="subscribe_button" data-toggle="modal" data-target="#subscribeModal">SUBSCRIBE</button><button class="btn btn-default make_round visible-xs-block" id="subscribe_button" data-toggle="modal" data-target="#subscribeModal" style="margin-bottom:20px;">SUBSCRIBE</button></li></ul></div></div></div><div class="panel panel-default top_bar make_round" id="statusio_status_bar" style="background:#54d1b0; border-bottom:0;"><div class="panel-body" style="vertical-align: middle;"><div class="row"><div class="col-md-8 col-sm-6 col-xs-12"><strong id="statusbar_text">All Systems Operational</strong></div><div class="col-md-4 col-sm-6 hidden-xs"><p class="pull-right white" id="updated_ago">Updated a few seconds ago</p></div></div></div></div><div class="panel panel-default top_bar make_round visible-xs-block" id="statusio_last_updated_bar_xs" style="background:#54d1b0; border-bottom:0;"><div class="panel-body" style="vertical-align: middle;"><div class="row"><div class="col-xs-12"><p class="white" id="updated_ago">Updated a few seconds ago</p></div></div></div></div><div class="page_section" id="statusio_components"><!-- first component--><div class="component component_first status_td" id="component_5342d1b837768a325c00000b" style="border-top: 1px solid #c9c9c9; border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Hub Registry<span data-toggle="tooltip" data-placement="top" title="" data-original-title="Set of services that serves docker pull and push (registry-1.docker.io, auth.docker.io, registry.docker.io)"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-5342d1b837768a325c00000b" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_61e1a6108e1cce053fe15fa8" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Authentication<span data-toggle="tooltip" data-placement="top" title="" data-original-title="login.docker.com"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-61e1a6108e1cce053fe15fa8" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_533c6539221ae15e3f000040" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Hub Web Services<span data-toggle="tooltip" data-placement="top" title="" data-original-title="Hub services and APIs (besides registry)"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-533c6539221ae15e3f000040" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_636bddd6d7327366cd233ff0" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Desktop</p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-636bddd6d7327366cd233ff0" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_64513ac721e02f053d0ad4b0" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Billing<span data-toggle="tooltip" data-placement="top" title="" data-original-title="Services powering billing for Docker products"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-64513ac721e02f053d0ad4b0" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_582c71aa40855b4d0e000240" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Package Repositories<span data-toggle="tooltip" data-placement="top" title="" data-original-title="Downloads of Docker Engine and other Docker products"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-582c71aa40855b4d0e000240" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_5342bc9420974b775d000008" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Hub Automated Builds<span data-toggle="tooltip" data-placement="top" title="" data-original-title="Hub service that provides automated builds of your images"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-5342bc9420974b775d000008" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_61bb4045682d750536ef4488" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Hub Security Scanning<span data-toggle="tooltip" data-placement="top" title="" data-original-title="Hub service that provides security scans of your images"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-61bb4045682d750536ef4488" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_5347131d545b2f12640000bc" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Docs<span data-toggle="tooltip" data-placement="top" title="" data-original-title="docs.docker.com"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-5347131d545b2f12640000bc" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_55b15ea10a54eb8c71000ebf" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Community Forums<span data-toggle="tooltip" data-placement="top" title="" data-original-title="forums.docker.com"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-55b15ea10a54eb8c71000ebf" style="color: #54d1b0;">Operational</p></div></div></div><!-- middle component--><div class="component component_middle status_td" id="component_57f296dbe1401094660008e1" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker Support</p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-57f296dbe1401094660008e1" style="color: #54d1b0;">Operational</p></div></div></div><!-- last component--><div class="component component_last status_td" id="component_53a1c83e814a437c5a00075a" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;"><div class="row"><div class="col-md-8 col-sm-8 col-xs-8"><p class="component_name">Docker.com Website<span data-toggle="tooltip" data-placement="top" title="" data-original-title="www.docker.com"> <i class="fa fa-info-circle"></i></span></p></div><div class="col-md-4 col-sm-4 col-xs-4"><p class="pull-right component-status" id="status_text-53a1c83e814a437c5a00075a" style="color: #54d1b0;">Operational</p></div></div></div></div><!-- Metrics--><div class="page_section" id="statusio_metrics"><div class="row"><div class="col-md-2 col-sm-2 col-xs-2"><h3>Metrics</h3></div><div class="col-md-10 col-sm-10 col-xs-10"><ul class="nav nav-pills pull-right" role="tablist"><li><a href="#metric_today" role="tab" data-toggle="tab">Today</a></li><li><a href="#metric_week" role="tab" data-toggle="tab">Week</a></li><li class="active"><a href="#metric_month" role="tab" data-toggle="tab">Month</a></li></ul></div></div><div class="row"><div class="col-md-12"><div class="tab-content"><div class="tab-pane active" id="metric_today"><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Hub API Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>516.21ms</h4></div></div><br><div id="534fd1ae28328a24710000c2-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Hub API Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div id="534fd4bd28328a24710000c3-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Hub API Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>371.83ms</h4></div></div><br><div id="534fd386b79718bb73000104-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Hub API Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div id="534fd54bb79718bb73000105-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>438.88ms</h4></div></div><br><div id="534fd92c28328a24710000c5-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div id="534fd98028328a24710000c6-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Com Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>340.79ms</h4></div></div><br><div id="53a1e5aacac28f835e000752-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Com Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div id="53a1e834814a437c5a00079f-day" style="rx: 0; ry: 0; height: 100px; margin: 0 auto;"></div><br><br></div></div></div><div class="tab-pane active" id="metric_week"><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Hub API Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>456.63ms</h4></div></div><br><div id="534fd1ae28328a24710000c2-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Hub API Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>99.99%</h4></div></div><br><div id="534fd4bd28328a24710000c3-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Hub API Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>388.38ms</h4></div></div><br><div id="534fd386b79718bb73000104-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Hub API Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div id="534fd54bb79718bb73000105-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>423.13ms</h4></div></div><br><div id="534fd92c28328a24710000c5-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>99.99%</h4></div></div><br><div id="534fd98028328a24710000c6-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Com Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>368.63ms</h4></div></div><br><div id="53a1e5aacac28f835e000752-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Com Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div id="53a1e834814a437c5a00079f-week" style="height: 100px; margin: 0 auto;"></div><br><br></div></div></div><div class="tab-pane active" id="metric_month"><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Hub API Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>457.13ms</h4></div></div><br><div class="make_round" id="534fd1ae28328a24710000c2-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Hub API Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div class="make_round" id="534fd4bd28328a24710000c3-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Hub API Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>357.58ms</h4></div></div><br><div class="make_round" id="534fd386b79718bb73000104-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Hub API Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div class="make_round" id="534fd54bb79718bb73000105-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>431.06ms</h4></div></div><br><div class="make_round" id="534fd92c28328a24710000c5-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Registry Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div class="make_round" id="534fd98028328a24710000c6-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Com Response Time</h4></div><div class="col-md-4 pull-right text-right"><h4>352.48ms</h4></div></div><br><div class="make_round" id="53a1e5aacac28f835e000752-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div><div class="panel panel-default section_border_1 make_round"><div class="panel-body"><div class="row"><div class="col-md-8"><h4 class="metric_name">Docker Com Uptime</h4></div><div class="col-md-4 pull-right text-right"><h4>100.00%</h4></div></div><br><div class="make_round" id="53a1e834814a437c5a00079f-month" style="height: 100px; margin: 0 auto;"></div><br></div><br></div></div></div></div></div></div><!-- Map--><!-- Footer--><div class="page_section" id="section_page_links"><div class="row"><div class="col-sm-9"><div id="bottom_menu"><strong><a class="pull-left margin-right-20" href="/pages/533c6539221ae15e3f000031">Status</a></strong><a class="pull-left margin-right-20" href="/pages/history/533c6539221ae15e3f000031">History</a><a class="pull-left margin-right-20" href="mailto:support@docker.com">Report Issue</a></div></div><div class="col-sm-3"><div id="statusio_branding"><a class="pull-right" href="https://status.io" target="_blank">Powered by Status.io</a></div></div></div></div><!-- Subscriber modal--><div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content make_round modal-text"><div class="modal-body"><div class="row"><div class="col-md-12"><ul class="nav nav-pills" role="tablist"><li id="tab_menu_email" style="padding-top:5px;"><a title="Email" href="#tab_email" role="tab" data-toggle="tab"><span><i class="fa fa-envelope"></i></span></a></li><li id="tab_menu_webhook" style="padding-top:5px;"><a title="Webhook" href="#tab_webhook" role="tab" data-toggle="tab"><span><i class="fa fa-code"></i></span></a></li><li id="tab_menu_rss" style="padding-top:5px;"><a title="RSS" href="#tab_rss" role="tab" data-toggle="tab"><span><i class="fa fa-rss"></i></span></a></li><li id="tab_menu_slack" style="padding-top:5px;"><a title="Slack" href="#tab_slack" role="tab" data-toggle="tab"><span><i class="fa fa-slack">                   </i></span></a></li></ul></div></div><div class="row margin-top-40"><div class="col-md-12"><div class="tab-content"> <div class="tab-pane" id="tab_email"><div class="row"><div class="col-sm-12"><h4 class="text-center" id="subscribe_email_text_content">Subscribe to receive status updates by email</h4></div></div><br><div class="row margin-top-20"><div class="col-md-3"></div><div class="col-md-6"><input class="form-control make_round" id="subscribe_email_address" type="text" placeholder="Email" name="subscribe_email_address" autofocus="autofocus"><input class="form-control" type="hidden" placeholder="Email" name="email"></div></div><div class="row" id="recaptcha_block_email"><div class="col-md-12" style="text-align:center;"></div></div><div class="row subscribe-modal-footer"><div class="row"><div class="col-md-6"><div class="pull-left" id="result_subscribe_email" style="text-align:left;"></div></div><div class="col-md-6"><button class="btn btn-default make_round" type="button" data-dismiss="modal">Close</button><button class="btn btn-default make_round" id="subscribe_button_email" type="button">Subscribe</button><button class="btn btn-default make_round" id="manage_button_email" type="button" style="display:none;">Manage Subscription</button></div></div><div class="row"><div class="col-md-12" style="text-align:center;"><br><small id="manage_subscription_email" style="cursor:pointer;">Manage Existing Subscription</small><small id="dont_manage_subscription_email" style="display:none;cursor:pointer;">Create New Subscription</small></div></div></div></div><div class="tab-pane" id="tab_webhook"><div class="row"><div class="col-sm-12"><h4 class="text-center" id="subscribe_webhook_text_content">Subscribe to receive status updates by webhook</h4></div></div><br><div class="row margin-top-20"><div class="col-md-2"></div><div class="col-md-8"><input class="form-control make_round" type="text" name="subscribe_webhook_address" id="subscribe_webhook_address" placeholder="http://example.com/hook"><p class="help-block">Each status update will POST a JSON payload to this URL</p></div></div><br><div class="row margin-top-20"><div class="col-md-2"></div><div class="col-md-8"><input class="form-control make_round" type="text" name="subscribe_webhook_address_email" id="subscribe_webhook_address_email" placeholder="Email"><p class="help-block">Email address for managing webhook</p></div></div><div class="row" id="recaptcha_block_webhook"><div class="col-md-12" style="text-align:center;"></div></div><div class="row subscribe-modal-footer"><div class="row"><div class="col-md-6"><div class="pull-left" id="result_subscribe_webhook" style="text-align:left;"></div></div><div class="col-md-6"><button class="btn btn-default make_round" type="button" data-dismiss="modal">Close</button><button class="btn btn-default make_round" id="subscribe_button_webhook" type="button">Subscribe</button><button class="btn btn-default make_round" id="manage_button_webhook" type="button" style="display:none;">Manage Subscription</button></div></div><div class="row"><div class="col-md-12" style="text-align:center;"><br><small id="manage_subscription_webhook" style="cursor:pointer;">Manage Existing Subscription</small><small id="dont_manage_subscription_webhook" style="display:none;cursor:pointer;">Create New Subscription</small></div></div></div></div><div class="tab-pane" id="tab_rss"><div class="row"><div class="col-sm-12"><h4 class="text-center">Subscribe to receive status updates via RSS</h4></div></div><br><div class="row margin-top-20"><div class="col-md-2"></div><div class="col-md-8 text-center"><a class="btn btn-lg btn-default make_round" id="subscribe_link_rss" href="https://www.dockerstatus.com/pages/533c6539221ae15e3f000031/rss" target="_blank" style="color:#000; font-size: 20px;">RSS Feed</a></div></div><div class="row subscribe-modal-footer"><div class="col-md-6"></div><div class="col-md-6"><button class="btn btn-default make_round" type="button" data-dismiss="modal">Close</button></div></div></div><div class="tab-pane" id="tab_slack"><div class="row"><div class="col-sm-12"><div class="h4 text-center" id="subscribe_slack_text_content">Subscribe to receive status updates in Slack</div></div></div><br><div class="row margin-top-20"><div class="col-md-2"></div><div class="col-md-8 text-center"><a id="subscribe_link_slack" href="https://slack.com/oauth/v2/authorize?client_id=656052646563.656045388978&amp;scope=incoming-webhook&amp;redirect_uri=https://status.io/pages/533c6539221ae15e3f000031/slack_auth" target="_blank"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a></div></div><br><div class="row margin-top-20" id="slack_manage_channel_div" style="display:none;"><div class="col-md-2"></div><div class="col-md-8"><input class="form-control make_round" type="text" name="manage_slack_channel" id="manage_slack_channel" placeholder="C03SKGJ1P"><p class="help-block">Slack channel ID</p><p class="help-block"><strong>Find the channel ID: </strong>Select the channel in your Slack workspace. The channel ID is displayed in the browser URL.</p><p class="help-block" style="font-size:12px;"><strong>Example: </strong>https://app.slack.com/client/T04SJBK1C/<strong>C03SKGJ1P</strong></p></div></div><br><div class="row margin-top-20" id="slack_manage_email_address_div" style="display:none;"><div class="col-md-2"></div><div class="col-md-8"><input class="form-control make_round" type="text" name="manage_slack_address_email" id="manage_slack_address_email" placeholder="Email"><p class="help-block">Email address</p></div></div><div class="row subscribe-modal-footer"><div class="row"><div class="col-md-6"><div class="pull-left" id="result_subscribe_slack" style="text-align:left;"></div></div><div class="col-md-6"><button class="btn btn-default make_round" type="button" data-dismiss="modal">Close</button><button class="btn btn-default make_round" id="manage_button_slack" type="button" style="display:none;">Manage Subscription</button></div></div><div class="row"><div class="col-md-12" style="text-align:center;"><br><small id="manage_subscription_slack" style="cursor:pointer;">Manage Existing Subscription</small><small id="dont_manage_subscription_slack" style="display:none;cursor:pointer;">Create New Subscription</small></div></div></div></div></div></div></div></div></div></div></div></div><!-- Custom Footer--><footer class="footer">
+          <div class="container">
+              <div class="bottom_footer">
+                  <div class="footer-copyright">
+                      <p class="copyright">
+                          © 2023 Docker Inc. All rights reserved. 
+                      </p>
+                  </div>
+              </div>
+          </div>
+  </footer><!-- Subscriber scripts--><script>$(document).ready(function(){
+    $('#tab_email').addClass('active');
+    $('#tab_menu_email').addClass('active');
+  });</script><script>$("#subscribe_button_email").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_email_address").val();
+    var email = $("#email").val();
+    if (false == true) {
+      var recaptcha = grecaptcha.getResponse(RecaptchaEmail);      
+    } else {
+      var recaptcha = '';
+    }    
+    $.ajax({
+      url: '/subscriber/add',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "email",
+        address: address,
+        email: email,
+        recaptcha: recaptcha
+      }),
+      success: function(data){
+        if (false == true) { grecaptcha.reset(RecaptchaEmail); }
+        var message_text = data.status.message;
+        $("#result_subscribe_email").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_email").show();
+        setTimeout(function(){
+          $("#result_subscribe_email").fadeOut("slow", function () {
+          $("#result_subscribe_email").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  </script><script>$("#subscribe_button_sms").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_sms_country_code").val() + $("#subscribe_sms_number").val();
+    if (false == true) {
+      var recaptcha = grecaptcha.getResponse(RecaptchaSms);      
+    } else {
+      var recaptcha = '';
+    }    
+    $.ajax({
+      url: '/subscriber/add',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "sms",
+        address: address,
+        recaptcha: recaptcha
+      }),
+      success: function(data){
+        if (false == true) { grecaptcha.reset(RecaptchaSms); }
+        var message_text = data.status.message;
+        $("#result_subscribe_sms").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_sms").show();
+        setTimeout(function(){
+          $("#result_subscribe_sms").fadeOut("slow", function () {
+          $("#result_subscribe_sms").hide();
+              });
+        }, 8000);
+      }
+    });
+  })
+  </script><script>$("#subscribe_button_webhook").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_webhook_address").val();
+    var address_email = $("#subscribe_webhook_address_email").val();
+    if (false == true) {
+      var recaptcha = grecaptcha.getResponse(RecaptchaWebhook);      
+    } else {
+      var recaptcha = '';
+    }    
+    $.ajax({
+      url: '/subscriber/add',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "webhook",
+        address: address,
+        address_email: address_email,
+        recaptcha: recaptcha
+      }),
+      success: function(data){
+        if (false == true) { grecaptcha.reset(RecaptchaWebhook); }
+        var message_text = data.status.message;
+        $("#result_subscribe_webhook").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_webhook").show();
+        setTimeout(function(){
+          $("#result_subscribe_webhook").fadeOut("slow", function () {
+          $("#result_subscribe_webhook").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  </script><script>$("#subscribe_button_msteams").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_msteams_address").val();
+    var address_email = $("#subscribe_msteams_address_email").val();
+    if (false == true) {
+      var recaptcha = grecaptcha.getResponse(RecaptchaMsteams);      
+    } else {
+      var recaptcha = '';
+    }    
+    $.ajax({
+      url: '/subscriber/add',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "msteams",
+        address: address,
+        address_email: address_email,
+        recaptcha: recaptcha
+      }),
+      success: function(data){
+        if (false == true) { grecaptcha.reset(RecaptchaMsteams); }
+        var message_text = data.status.message;
+        $("#result_subscribe_msteams").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_msteams").show();
+        setTimeout(function(){
+          $("#result_subscribe_msteams").fadeOut("slow", function () {
+          $("#result_subscribe_msteams").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  </script><script>$('#subscribeModal').on('shown.bs.modal', function() {
+    $(this).find('input:first').focus();
+  });  
+  
+  
+  
+  </script><script>$("#manage_subscription_email").click(function (event) {
+    event.preventDefault();
+    $("#recaptcha_block_email").hide();
+    $("#manage_subscription_email").hide();
+    $("#subscribe_button_email").hide();
+    $("#manage_button_email").show();
+    $("#subscribe_email_text_content").html("Enter the email address you subscribed with");
+    $("#dont_manage_subscription_email").show();
+  })
+  </script><script>$("#dont_manage_subscription_email").click(function (event) {
+    event.preventDefault();
+    $("#dont_manage_subscription_email").hide();
+    $("#recaptcha_block_email").show();
+    $("#subscribe_button_email").show();
+    $("#manage_button_email").hide();
+    $("#subscribe_email_text_content").html("Subscribe to receive status updates by email");
+    $("#manage_subscription_email").show();
+  })
+  </script><script>$("#manage_button_email").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_email_address").val();
+    var email = $("#email").val();
+    $.ajax({
+      url: '/subscriber/email/request_manage_link',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "email",
+        address: address,
+        email: email
+      }),
+      success: function(data){
+        var message_text = data.status.message;
+        $("#result_subscribe_email").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_email").show();
+        setTimeout(function(){
+          $("#result_subscribe_email").fadeOut("slow", function () {
+          $("#result_subscribe_email").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  
+  
+  
+  </script><script>$("#manage_subscription_webhook").click(function (event) {
+    event.preventDefault();
+    $("#recaptcha_block_webhook").hide();
+    $("#manage_subscription_webhook").hide();
+    $("#subscribe_button_webhook").hide();
+    $("#manage_button_webhook").show();
+    $("#subscribe_webhook_text_content").html("Enter the webhook URL and email address you subscribed with");
+    $("#dont_manage_subscription_webhook").show();
+  })
+  </script><script>$("#dont_manage_subscription_webhook").click(function (event) {
+    event.preventDefault();
+    $("#dont_manage_subscription_webhook").hide();
+    $("#recaptcha_block_webhook").show();
+    $("#subscribe_button_webhook").show();
+    $("#manage_button_webhook").hide();
+    $("#subscribe_webhook_text_content").html("Subscribe to receive status updates by webhook");
+    $("#manage_subscription_webhook").show();
+  })
+  </script><script>$("#manage_button_webhook").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_webhook_address").val();
+    var address_email = $("#subscribe_webhook_address_email").val();
+    $.ajax({
+      url: '/subscriber/webhook/request_manage_link',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "webhook",
+        address: address,
+        address_email: address_email
+      }),
+      success: function(data){
+        var message_text = data.status.message;
+        $("#result_subscribe_webhook").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_webhook").show();
+        setTimeout(function(){
+          $("#result_subscribe_webhook").fadeOut("slow", function () {
+          $("#result_subscribe_webhook").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  </script><script>$("#manage_subscription_msteams").click(function (event) {
+    event.preventDefault();
+    $("#recaptcha_block_msteams").hide();
+    $("#manage_subscription_msteams").hide();
+    $("#subscribe_button_msteams").hide();
+    $("#manage_button_msteams").show();
+    $("#subscribe_msteams_text_content").html("Enter the Microsoft Teams Webhook and email address you subscribed with");
+    $("#dont_manage_subscription_msteams").show();
+  })
+  </script><script>$("#dont_manage_subscription_msteams").click(function (event) {
+    event.preventDefault();
+    $("#dont_manage_subscription_msteams").hide();
+    $("#recaptcha_block_msteams").show();
+    $("#subscribe_button_msteams").show();
+    $("#manage_button_msteams").hide();
+    $("#subscribe_msteams_text_content").html("Subscribe to receive status updates in Microsoft Teams");
+    $("#manage_subscription_msteams").show();
+  })
+  </script><script>$("#manage_button_msteams").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_msteams_address").val();
+    var address_email = $("#subscribe_msteams_address_email").val();
+    $.ajax({
+      url: '/subscriber/msteams/request_manage_link',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "msteams",
+        address: address,
+        address_email: address_email
+      }),
+      success: function(data){
+        var message_text = data.status.message;
+        $("#result_subscribe_msteams").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_msteams").show();
+        setTimeout(function(){
+          $("#result_subscribe_msteams").fadeOut("slow", function () {
+          $("#result_subscribe_msteams").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  
+  </script><script>$("#manage_subscription_slack").click(function (event) {
+    event.preventDefault();
+    $("#manage_subscription_slack").hide();
+    $("#subscribe_link_slack").hide();
+    $("#slack_manage_channel_div").show();
+    $("#slack_manage_email_address_div").show();
+    $("#manage_button_slack").show();
+    $("#subscribe_slack_text_content").html("Enter the Slack channel and email address you subscribed with");
+    $("#dont_manage_subscription_slack").show();
+  })
+  </script><script>$("#dont_manage_subscription_slack").click(function (event) {
+    event.preventDefault();
+    $("#dont_manage_subscription_slack").hide();
+    $("#subscribe_link_slack").show();
+    $("#slack_manage_channel_div").hide();
+    $("#slack_manage_email_address_div").hide();
+    $("#manage_button_slack").hide();
+    $("#subscribe_slack_text_content").html("Receive status notifications in your Slack channel");
+    $("#manage_subscription_slack").show();
+  })
+  </script><script>$("#manage_button_slack").click(function (event) {
+    event.preventDefault();
+    var channel = $("#manage_slack_channel").val();
+    var address_email = $("#manage_slack_address_email").val();
+    $.ajax({
+      url: '/subscriber/slack/request_manage_link',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        channel: channel,
+        address_email: address_email
+      }),
+      success: function(data){
+        var message_text = data.status.message;
+        $("#result_subscribe_slack").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_slack").show();
+        setTimeout(function(){
+          $("#result_subscribe_slack").fadeOut("slow", function () {
+          $("#result_subscribe_slack").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  
+  
+  
+  </script><script>$("#manage_subscription_sms").click(function (event) {
+    event.preventDefault();
+    $("#recaptcha_block_sms").hide();
+    $("#manage_subscription_sms").hide();
+    $("#subscribe_button_sms").hide();
+    $("#manage_button_sms").show();
+    $("#subscribe_sms_text_content").html("Enter the number you subscribed with");
+    $("#dont_manage_subscription_sms").show();
+  })
+  </script><script>$("#dont_manage_subscription_sms").click(function (event) {
+    event.preventDefault();
+    $("#dont_manage_subscription_sms").hide();
+    $("#recaptcha_block_sms").show();
+    $("#subscribe_button_sms").show();
+    $("#manage_button_sms").hide();
+    $("#subscribe_sms_text_content").html("Subscribe to receive status updates by text message");
+    $("#manage_subscription_sms").show();
+  })
+  </script><script>$("#manage_button_sms").click(function (event) {
+    event.preventDefault();
+    var address = $("#subscribe_sms_country_code").val() + $("#subscribe_sms_number").val();
+    var sms = $("#sms").val();
+    $.ajax({
+      url: '/subscriber/sms/request_manage_link',
+      type: "POST",
+      data: ({
+        statuspage_id: "533c6539221ae15e3f000031",
+        method: "sms",
+        address: address
+      }),
+      success: function(data){
+        var message_text = data.status.message;
+        $("#result_subscribe_sms").html("<span class=\"help-block\">"+message_text+"</span>");
+        $("#result_subscribe_sms").show();
+        setTimeout(function(){
+          $("#result_subscribe_sms").fadeOut("slow", function () {
+          $("#result_subscribe_sms").hide();
+              });
+        }, 5000);
+      }
+    });
+  })
+  </script><script>$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
+  });
+  </script><!-- Metric scripts--><script>$(document).ready(function(){
+    $('#metric_today').removeClass('active');
+    $('#metric_week').removeClass('active');
+  });
+  </script><script>$(document).ready(function(){
+    $('.nav-pills a').click(function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+      $(window).trigger('resize');
+    })
+  });
+  </script><script src="//static.status.io/public/statuspage/plugins/highcharts/highcharts.js"></script><script src="//static.status.io/public/statuspage/plugins/highcharts/modules/exporting.js"></script><script>Highcharts.theme = {
+    colors: ["#1488c6", "#7798BF", "#55BF3B", "#DF5353", "#aaeeee", "#ff0066", "#eeaaee",
+      "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+    chart: {
+      backgroundColor: "#ffffff",
+      borderWidth: 0,
+      borderRadius: 15,
+      plotBackgroundColor: null,
+      plotShadow: false,
+      plotBorderWidth: 0
+    },
+    title: {
+      style: {
+        color: '#FFF',
+        font: '16px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+      }
+    },
+    subtitle: {
+      style: {
+        color: '#DDD',
+        font: '12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+      }
+    },
+    xAxis: {
+      gridLineWidth: 0,
+      lineColor: '#999',
+      tickColor: '#999',
+      labels: {
+        style: {
+          color: '#999',
+          fontWeight: 'bold'
+        }
+      },
+      title: {
+        style: {
+          color: '#AAA',
+          font: 'bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+        }
+      }
+    },
+    yAxis: {
+      alternateGridColor: null,
+      minorTickInterval: null,
+      gridLineColor: 'rgba(255, 255, 255, .1)',
+      minorGridLineColor: 'rgba(255,255,255,0.07)',
+      lineWidth: 0,
+      tickWidth: 0,
+      labels: {
+        style: {
+          color: '#999',
+          fontWeight: 'bold'
+        }
+      },
+      title: {
+        style: {
+          color: '#AAA',
+          font: 'bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+        }
+      }
+    },
+    legend: {
+      itemStyle: {
+        color: '#CCC'
+      },
+      itemHoverStyle: {
+        color: '#FFF'
+      },
+      itemHiddenStyle: {
+        color: '#333'
+      }
+    },
+    labels: {
+      style: {
+        color: '#CCC'
+      }
+    },
+    tooltip: {
+      backgroundColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+        stops: [
+          [0, 'rgba(96, 96, 96, .8)'],
+          [1, 'rgba(16, 16, 16, .8)']
+        ]
+      },
+      borderWidth: 0,
+      style: {
+        color: '#FFF'
+      }
+    },
+  
+  
+    plotOptions: {
+      series: {
+        shadow: true
+      },
+      line: {
+        dataLabels: {
+          color: '#CCC'
+        },
+        marker: {
+          lineColor: '#333'
+        }
+      },
+      spline: {
+        marker: {
+          lineColor: '#333'
+        }
+      },
+      scatter: {
+        marker: {
+          lineColor: '#333'
+        }
+      },
+      candlestick: {
+        lineColor: 'white'
+      }
+    },
+  
+    toolbar: {
+      itemStyle: {
+        color: '#CCC'
+      }
+    },
+  
+    navigation: {
+      buttonOptions: {
+        symbolStroke: '#DDDDDD',
+        hoverSymbolStroke: '#FFFFFF',
+        theme: {
+          fill: {
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            stops: [
+              [0.4, '#606060'],
+              [0.6, '#333333']
+            ]
+          },
+          stroke: '#000000'
+        }
+      }
+    },
+  
+    // scroll charts
+    rangeSelector: {
+      buttonTheme: {
+        fill: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0.4, '#888'],
+            [0.6, '#555']
+          ]
+        },
+        stroke: '#000000',
+        style: {
+          color: '#CCC',
+          fontWeight: 'bold'
+        },
+        states: {
+          hover: {
+            fill: {
+              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+              stops: [
+                [0.4, '#BBB'],
+                [0.6, '#888']
+              ]
+            },
+            stroke: '#000000',
+            style: {
+              color: 'white'
+            }
+          },
+          select: {
+            fill: {
+              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+              stops: [
+                [0.1, '#000'],
+                [0.3, '#333']
+              ]
+            },
+            stroke: '#000000',
+            style: {
+              color: 'yellow'
+            }
+          }
+        }
+      },
+      inputStyle: {
+        backgroundColor: '#333',
+        color: 'silver'
+      },
+      labelStyle: {
+        color: 'silver'
+      }
+    },
+  
+    navigator: {
+      handles: {
+        backgroundColor: '#666',
+        borderColor: '#AAA'
+      },
+      outlineColor: '#CCC',
+      maskFill: 'rgba(16, 16, 16, 0.5)',
+      series: {
+        color: '#7798BF',
+        lineColor: '#A6C7ED'
+      }
+    },
+  
+    scrollbar: {
+      barBackgroundColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0.4, '#888'],
+            [0.6, '#555']
+          ]
+        },
+      barBorderColor: '#CCC',
+      buttonArrowColor: '#CCC',
+      buttonBackgroundColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0.4, '#888'],
+            [0.6, '#555']
+          ]
+        },
+      buttonBorderColor: '#CCC',
+      rifleColor: '#FFF',
+      trackBackgroundColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+        stops: [
+          [0, '#000'],
+          [1, '#333']
+        ]
+      },
+      trackBorderColor: '#666'
+    },
+  
+    // special colors for some of the demo examples
+    legendBackgroundColor: 'rgba(48, 48, 48, 0.8)',
+    legendBackgroundColorSolid: 'rgb(70, 70, 70)',
+    dataLabelsColor: '#444',
+    textColor: '#E0E0E0',
+    maskColor: 'rgba(255,255,255,0.3)'
+  };
+  
+  // Apply the theme
+  var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
+  
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#534fd1ae28328a24710000c2-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [728,471,483,489,537,745,545,493,461,495,464,546,472,485,465,458,525,492,479,494,489,490,541,542]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd1ae28328a24710000c2-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [431,440,424,472,440,461,491,494]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd1ae28328a24710000c2-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [447,467,472,455,432,424,419,478,471,439,417,427,477,476,480,485,465,461,471,478,481,457,439,431,440,424,472,440,461,491,494]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#534fd4bd28328a24710000c3-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd4bd28328a24710000c3-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd4bd28328a24710000c3-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,99.93,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#534fd386b79718bb73000104-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [372,374,365,362,376,366,369,364,372,366,360,370,372,381,390,381,374,374,382,361,362,373,375,383]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd386b79718bb73000104-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [394,396,381,391,397,389,386,373]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd386b79718bb73000104-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [349,343,351,348,320,319,324,309,292,305,320,358,367,398,455,386,351,352,332,351,348,343,357,394,396,381,391,397,389,386,373]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#534fd54bb79718bb73000105-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd54bb79718bb73000105-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd54bb79718bb73000105-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#534fd92c28328a24710000c5-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [451,423,441,438,444,415,424,432,430,444,437,420,427,418,442,447,434,445,449,446,439,451,479,457]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd92c28328a24710000c5-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [402,406,400,428,446,430,432,441]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd92c28328a24710000c5-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [454,475,479,455,431,427,429,447,426,420,420,435,424,432,442,417,422,446,426,437,415,409,410,402,406,400,428,446,430,432,441]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#534fd98028328a24710000c6-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd98028328a24710000c6-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [99.93,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#534fd98028328a24710000c6-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,99.93,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#53a1e5aacac28f835e000752-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [328,349,340,323,352,343,415,321,351,332,326,309,317,331,322,322,345,343,331,361,378,350,340,350]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#53a1e5aacac28f835e000752-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [389,391,404,383,353,356,336,337]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#53a1e5aacac28f835e000752-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 2000
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: 'ms',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + 'ms</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [345,330,324,332,341,335,335,326,335,329,330,327,334,327,351,357,350,363,377,388,387,364,391,389,391,404,383,353,356,336,337]
+        }]
+    });
+  });
+  </script><script>$(function () {
+    var point_start = 1685440800000
+    $('#53a1e834814a437c5a00079f-day').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        title: {
+            text: ''
+        },                
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        dateTimeLabelFormats : {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: point_start,
+          pointInterval: 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#53a1e834814a437c5a00079f-week').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        tickInterval: 86400000,
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 604800000,
+        title: {
+            text: null
+        }
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1684886400000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });</script><script>$(function () {
+    $('#53a1e834814a437c5a00079f-month').highcharts({
+      chart: {
+        type: 'line',
+        marginRight: 20,
+        marginBottom: 25
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        x: -20 //center
+      },
+      subtitle: {
+        text: '',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime',
+        minPadding: 0,
+        maxPadding: 0,
+        min: 1685491200000 - 2592000000,
+        title: {
+            text: null
+        }  
+      },
+      yAxis: {
+        gridLineColor : '#E6E6E6',
+        gridLineWidth: .5,
+        title: {
+          text: ''
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#F0F0F0'
+        }],
+        min: 0,
+        max: 100
+      },
+      tooltip: {
+        enabled: true,
+        followPointer: true,
+        followTouchMove: true,
+        snap: 10,
+        valueSuffix: '%',
+        useHTML: true,
+        formatter: function() {
+            var serie = this.series;
+            var s = '';
+            s += '<b>' + this.y + '%</b>';
+            return s;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        line: {
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+          name: 'Average',
+          pointStart: 1682899200000,
+          pointInterval: 24 * 3600 * 1000,
+          data: [100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00,100.00]
+        }]
+    });
+  });
+  </script><script>$(document).ready(function(){
+    var current_chart = $('#534fd1ae28328a24710000c2-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd1ae28328a24710000c2-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd1ae28328a24710000c2-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#534fd4bd28328a24710000c3-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd4bd28328a24710000c3-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd4bd28328a24710000c3-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#534fd386b79718bb73000104-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd386b79718bb73000104-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd386b79718bb73000104-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#534fd54bb79718bb73000105-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd54bb79718bb73000105-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd54bb79718bb73000105-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#534fd92c28328a24710000c5-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd92c28328a24710000c5-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd92c28328a24710000c5-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#534fd98028328a24710000c6-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd98028328a24710000c6-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#534fd98028328a24710000c6-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#53a1e5aacac28f835e000752-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#53a1e5aacac28f835e000752-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#53a1e5aacac28f835e000752-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><script>$(document).ready(function(){
+    var current_chart = $('#53a1e834814a437c5a00079f-day').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#53a1e834814a437c5a00079f-week').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+    var current_chart = $('#53a1e834814a437c5a00079f-month').highcharts();
+    current_chart.yAxis[0].update({
+        min: null,
+        max: null
+    });
+  
+  });</script><!-- Custom JavaScript--><script type="text/javascript">
+    !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("cUYvBbhGTeSjz8O7hMy6AEmkfEH8MH9Y");
+    analytics.page()
+    }}();
+  
+  /*
+   *
+   * make dropdown show on hover *********************************************************************
+   *
+   */
+  
+  $('ul.nav li.dropdown').hover(function() {
+    $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+  }, function() {
+    $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+  });
+  </script></body></html>

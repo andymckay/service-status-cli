@@ -53,3 +53,17 @@ test("trello partial #trello-2023-03-02.json", () => {
     expect(service.status).toBe(statusLevels.partial);
   });
 });
+
+test("docker good #docker-good.html", () => {
+  let service = findService("docker", { log: console });
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.ok);
+  });
+});
+
+test("planetscale good #planetscale-good.json", () => {
+  let service = findService("planetscale", { log: console });
+  service.getStatus().then(() => {
+    expect(service.status).toBe(statusLevels.ok);
+  });
+});
