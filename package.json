@@ -22,7 +22,7 @@
     "open": "^8.4.2",
     "ora": "^6.1.2",
     "rss-parser": "^3.12.0",
-    "service-status-data": "^0.0.2"
+    "service-status-data": "^0.0.3"
   },
   "type": "module",
   "devDependencies": {
