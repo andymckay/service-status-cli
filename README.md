@@ -37,6 +37,7 @@ For example when something is `Operational`:
 
 - `--list` returns the services available.
 - `--web` opens the web page for the service in your browser.
+- `--all` returns the status for all services.
 - `-v` or `--verbose` get verbose logging, including URL to the endpoint used.
 - `-q` suppress all output, except errors. Exit codes are returned see below 👇
 
