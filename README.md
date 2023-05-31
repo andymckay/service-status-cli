@@ -1,7 +1,5 @@
 A command line interface to query the status page of internet service providers and provide a uniform response.
 
-This is currently very much a work in progress and is not in a stable state.
-
 ## Service data
 
 There is a list of services that comes from [this repository](https://github.com/andymckay/service-status-data). Currently this is a very limited number of services, but we'd love more. Please add your service into that repo and it will get updated.
