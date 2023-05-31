@@ -1,4 +1,4 @@
-A command line interface to query the status page of internet service providers and provide a uniform response.
+A command line interface to query the status page of key service providers and provide a uniform response.
 
 ## Service data
 
