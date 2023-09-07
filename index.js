@@ -23,6 +23,9 @@ program
       .conflicts("web")
   )
   .action(async (requested_service, options) => {
+    if (!requested_service && !options.list && !options.all) {
+      program.help();
+    }
     if (options.quiet) {
       options.log = logger({ level: loggingLevels.error });
     } else {
