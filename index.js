@@ -38,7 +38,7 @@ program
     }
 
     try {
-      await main(requested_service, options);
+      await main(requested_service.toLowerCase(), options);
     } catch (e) {
       if (options.verbose) {
         console.error(e);
