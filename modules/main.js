@@ -28,6 +28,7 @@ export async function main(requested_service, options) {
     requested_services = listServices(options);
   } else {
     if (requested_service) {
+      requested_service = requested_service.toLowerCase();
       options.log.info(`User requested service: ${requested_service}`);
       requested_services = [requested_service];
     }
